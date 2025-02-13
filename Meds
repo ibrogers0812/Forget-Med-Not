@@ -8,7 +8,7 @@ import datetime
 conn = sqlite3.connect('medication_reminder.db')
 c = conn.cursor()
 c.execute('''CREATE TABLE IF NOT EXISTS reminders
-             (id INTEGER PRIMARY KEY, name TEXT, time TEXT, date TEXT)''')
+             (id INTEGER PRIMARY KEY, name TEXT, time TEXT, date TEXT, type TEXT)''')
 conn.commit()
 
 # Function to add a reminder
@@ -16,7 +16,8 @@ def add_reminder():
     name = entry_name.get()
     time = entry_time.get()
     date = entry_date.get()
-    c.execute("INSERT INTO reminders (name, time, date) VALUES (?, ?, ?)", (name, time, date))
+    reminder_type = var_reminder_type.get()
+    c.execute("INSERT INTO reminders (name, time, date, type) VALUES (?, ?, ?, ?)", (name, time, date, reminder_type))
     conn.commit()
     messagebox.showinfo("Success", "Reminder added successfully!")
     entry_name.delete(0, tk.END)
@@ -31,11 +32,18 @@ def check_reminders():
     c.execute("SELECT * FROM reminders WHERE time=? AND date=?", (current_time, current_date))
     reminders = c.fetchall()
     for reminder in reminders:
-        notification.notify(
-            title="Medication Reminder",
-            message=f"Time to take your medication: {reminder[1]}",
-            timeout=10
-        )
+        if reminder[4] == 'medication':
+            notification.notify(
+                title="Medication Reminder",
+                message=f"Time to take your medication: {reminder[1]}",
+                timeout=10
+            )
+        elif reminder[4] == 'refill':
+            notification.notify(
+                title="Refill Reminder",
+                message=f"Time to refill your medication: {reminder[1]}",
+                timeout=10
+            )
 
 # GUI setup
 root = tk.Tk()
@@ -56,10 +64,21 @@ label_date.pack()
 entry_date = tk.Entry(root)
 entry_date.pack()
 
+label_reminder_type = tk.Label(root, text="Reminder Type")
+label_reminder_type.pack()
+var_reminder_type = tk.StringVar(value="medication")
+radio_medication = tk.Radiobutton(root, text="Medication", variable=var_reminder_type, value="medication")
+radio_medication.pack()
+radio_refill = tk.Radiobutton(root, text="Refill", variable=var_reminder_type, value="refill")
+radio_refill.pack()
+
 button_add = tk.Button(root, text="Add Reminder", command=add_reminder)
 button_add.pack()
 
 # Check reminders every minute
-root.after(60000, check_reminders)
+def periodic_check():
+    check_reminders()
+    root.after(60000, periodic_check)
 
+periodic_check()
 root.mainloop()
