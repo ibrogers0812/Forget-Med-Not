@@ -1,0 +1,10 @@
+# Defining owners for the entire repository
+*       @ibrogers0812
+
+# Define owners for specific directories or files
+app/    @ibrogers0812
+tests/  @ibrogers0812
+.github/ @ibrogers0812
+
+# Also Defining teamof group who helped (will update when someone helps)
+# app/    @yibrogers0812/Forget-Med-Not
