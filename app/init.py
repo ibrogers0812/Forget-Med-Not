@@ -1,6 +1,12 @@
-cd path/to/your/project
-mkdir app
-touch app/__init__.py
-git add app/__init__.py
-git commit -m "Add app/__init__.py file"
-git push origin main
+# app/__init__.py
+
+from flask import Flask
+
+app = Flask(__name__)
+
+from app import routes  # Import routes to register the endpoints
+
+def create_app():
+    app.config['SECRET_KEY'] = 'your_secret_key'
+    # Add other configurations here
+    return app
