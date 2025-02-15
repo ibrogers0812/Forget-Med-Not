@@ -1,12 +1,34 @@
-# app/routes.py
+# Remove unused imports
+from flask import Flask, request, jsonify
+from datetime import datetime
 
-from app import app
-from flask import render_template
+# Ensure 2 blank lines before functions
+def send_notification(user, message):
+    # Logic to send notifications (e.g., email, SMS)
+    pass
 
-@app.route('/')
-def home():
-    return "Welcome to the Medication Reminder App!"
+def get_medication_schedule(user_id):
+    # Logic to retrieve user's medication schedule from the database
+    pass
 
-@app.route('/reminder')
-def reminder():
-    return "Time to take your medication!"
+def create_reminder(user_id, medication, time):
+    # Logic to create a medication reminder
+    pass
+
+def setup_routes(app):
+    @app.route('/remind', methods=['POST'])
+    def remind():
+        data = request.get_json()
+        user_id = data['user_id']
+        medication = data['medication']
+        time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S')
+        create_reminder(user_id, medication, time)
+        return jsonify({"status": "Reminder set"}), 201
+
+    @app.route('/notify', methods=['POST'])
+    def notify():
+        data = request.get_json()
+        user = data['user']
+        message = data['message']
+        send_notification(user, message)
+        return jsonify({"status": "Notification sent"}), 200
