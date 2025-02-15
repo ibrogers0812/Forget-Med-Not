@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Report a bug or issue with the medication reminder app
 title: ''
 labels: bug
 assignees: ''
@@ -8,17 +8,17 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. For example, reminders not being sent or calendar events not being created.
 
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '...'
-3. Scroll down to '...'
+3. Set a reminder for '...'
 4. See error
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+A clear and concise description of what you expected to happen. For example, receiving a notification at the scheduled time.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
@@ -35,4 +35,4 @@ If applicable, add screenshots to help explain your problem.
  - Version [e.g. 22]
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here. For example, any error messages or logs that you encountered.
