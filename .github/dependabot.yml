@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/app" # Location of the requirements.txt file
+    schedule:
+      interval: "weekly" # Check for updates every week
+  - package-ecosystem: "github-actions"
+    directory: "/" # Location of GitHub Actions workflows
+    schedule:
+      interval: "weekly" # Check for updates every week
