@@ -1,4 +1,4 @@
-pip install ics
+# this command needs to be ran in the terminal to install the packages (pip install ics)
 
 from ics import Calendar, Event
 from datetime import datetime, timedelta
@@ -18,7 +18,7 @@ def add_event_to_calendar(calendar, event):
 # Function to save the calendar to a file
 def save_calendar_to_file(calendar, filename):
     with open(filename, 'w') as f:
-        f.writelines(calendar)
+        f.writelines(calendar.serialize())  # Convert to string before writing
 
 # Example usage
 if __name__ == "__main__":
@@ -36,3 +36,4 @@ if __name__ == "__main__":
     save_calendar_to_file(cal, 'medication_reminders.ics')
     
     print("Medication reminder event created and saved to medication_reminders.ics")
+
