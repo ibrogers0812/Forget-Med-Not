@@ -1,7 +1,7 @@
 import re
 
 def getPharmacyInfo():
-    userIn = input("Would you like to input or amend pharmacy information? (Y/N): ")
+    userIn = input("Would you like to input or change pharmacy information? (Y/N): ")
     
     if userIn.upper() == "Y":
         pharName = input("Please input the name of your pharmacy: ")
