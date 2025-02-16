@@ -3,7 +3,7 @@ import re
 
 # Function for user to input pharmacy data
 def getPharmacyInfo():
-    # Intializes variable for user start input
+    # Initializes variable for user start input
     userIn = input("Would you like to input or change pharmacy information? (Y/N): ")
 
     # User indicated that they would like to amend or input data

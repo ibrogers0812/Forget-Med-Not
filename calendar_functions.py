@@ -1,4 +1,4 @@
-# this command needs to be ran in the terminal to install the packages (pip install ics)
+# this command needs to run in the terminal to install the packages (pip install ics)
 
 from ics import Calendar, Event
 from datetime import datetime, timedelta
