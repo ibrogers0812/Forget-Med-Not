@@ -1,10 +1,29 @@
-# Ensure 2 blank lines before this function
-from app import create_app
+import calendar_functions
+import med_reminders
+import pharmacyinfo
+import route
 
 def main():
+    # Initialize the app
     app = create_app()
-    app.run(host='0.0.0.0', port=5000)
 
-# Call the main function when this script is run
+    # Set up calendar functions
+    calendar = calendar_functions.Calendar()
+    calendar.setup()
+
+    # Set up medication reminders
+    reminders = med_reminders.Reminders()
+    reminders.setup()
+
+    # Set up pharmacy information
+    pharmacy = pharmacyinfo.PharmacyInfo()
+    pharmacy.setup()
+
+    # Set up routes
+    route.setup_routes(app)
+
+    # Run the app
+    app.run()
+
 if __name__ == "__main__":
     main()
