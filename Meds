@@ -1,84 +1,25 @@
-import tkinter as tk
-from tkinter import messagebox
-import sqlite3
-from plyer import notification
-import datetime
+class Medication:
+    def __init__(self, name, dose, frequency, start_date, end_date=None):
+        self.name = name
+        self.dose = dose
+        self.frequency = frequency
+        self.start_date = start_date
+        self.end_date = end_date
 
-# Database setup
-conn = sqlite3.connect('medication_reminder.db')
-c = conn.cursor()
-c.execute('''CREATE TABLE IF NOT EXISTS reminders
-             (id INTEGER PRIMARY KEY, name TEXT, time TEXT, date TEXT, type TEXT)''')
-conn.commit()
+    def __repr__(self):
+        return f"{self.name} ({self.dose})"
 
-# Function to add a reminder
-def add_reminder():
-    name = entry_name.get()
-    time = entry_time.get()
-    date = entry_date.get()
-    reminder_type = var_reminder_type.get()
-    c.execute("INSERT INTO reminders (name, time, date, type) VALUES (?, ?, ?, ?)", (name, time, date, reminder_type))
-    conn.commit()
-    messagebox.showinfo("Success", "Reminder added successfully!")
-    entry_name.delete(0, tk.END)
-    entry_time.delete(0, tk.END)
-    entry_date.delete(0, tk.END)
+def add_medication(med_list, medication):
+    med_list.append(medication)
 
-# Function to check reminders
-def check_reminders():
-    now = datetime.datetime.now()
-    current_time = now.strftime("%H:%M")
-    current_date = now.strftime("%Y-%m-%d")
-    c.execute("SELECT * FROM reminders WHERE time=? AND date=?", (current_time, current_date))
-    reminders = c.fetchall()
-    for reminder in reminders:
-        if reminder[4] == 'medication':
-            notification.notify(
-                title="Medication Reminder",
-                message=f"Time to take your medication: {reminder[1]}",
-                timeout=10
-            )
-        elif reminder[4] == 'refill':
-            notification.notify(
-                title="Refill Reminder",
-                message=f"Time to refill your medication: {reminder[1]}",
-                timeout=10
-            )
+def remove_medication(med_list, medication_name):
+    med_list = [med for med in med_list if med.name != medication_name]
 
-# GUI setup
-root = tk.Tk()
-root.title("Medication Reminder App")
+def list_medications(med_list):
+    return med_list
 
-label_name = tk.Label(root, text="Medication Name")
-label_name.pack()
-entry_name = tk.Entry(root)
-entry_name.pack()
-
-label_time = tk.Label(root, text="Time (HH:MM)")
-label_time.pack()
-entry_time = tk.Entry(root)
-entry_time.pack()
-
-label_date = tk.Label(root, text="Date (YYYY-MM-DD)")
-label_date.pack()
-entry_date = tk.Entry(root)
-entry_date.pack()
-
-label_reminder_type = tk.Label(root, text="Reminder Type")
-label_reminder_type.pack()
-var_reminder_type = tk.StringVar(value="medication")
-radio_medication = tk.Radiobutton(root, text="Medication", variable=var_reminder_type, value="medication")
-radio_medication.pack()
-radio_refill = tk.Radiobutton(root, text="Refill", variable=var_reminder_type, value="refill")
-radio_refill.pack()
-
-button_add = tk.Button(root, text="Add Reminder", command=add_reminder)
-button_add.pack()
-
-# Check reminders every minute
-def periodic_check():
-    check_reminders()
-    root.after(60000, periodic_check)
-
-periodic_check()
-root.mainloop()
+def find_medication(med_list, medication_name):
+    for med in med_list:
+        if med.name == medication_name:
+            return med
+    return None
