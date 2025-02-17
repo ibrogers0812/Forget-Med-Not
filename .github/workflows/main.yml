@@ -36,13 +36,12 @@ jobs:
         pip install pytest
         pytest
 
-    - name: Build static files
-      run: |
-        # Adjust according to your static site generator (e.g., Jekyll, Hugo, etc.)
-        make build
-
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+        git add .
+        git commit -m "Automated deployment commit"
+        git push origin main
