@@ -1,5 +1,6 @@
 import json
 
+
 def load_pharmacy_data(file_path):
     """
     Loads pharmacy data from a JSON file.
@@ -13,6 +14,7 @@ def load_pharmacy_data(file_path):
     with open(file_path, 'r') as file:
         pharmacies = json.load(file)
     return pharmacies
+
 
 def get_pharmacy_info(pharmacies, name):
     """
@@ -30,6 +32,7 @@ def get_pharmacy_info(pharmacies, name):
             return pharmacy
     return None
 
+
 def add_pharmacy_info(pharmacies, new_pharmacy):
     """
     Adds new pharmacy information to the list.
@@ -43,6 +46,7 @@ def add_pharmacy_info(pharmacies, new_pharmacy):
     """
     pharmacies.append(new_pharmacy)
     return pharmacies
+
 
 def update_pharmacy_info(pharmacies, name, updated_info):
     """
@@ -62,6 +66,7 @@ def update_pharmacy_info(pharmacies, name, updated_info):
             break
     return pharmacies
 
+
 def delete_pharmacy_info(pharmacies, name):
     """
     Deletes a specific pharmacy by name.
@@ -73,5 +78,8 @@ def delete_pharmacy_info(pharmacies, name):
     Returns:
     - Updated list of pharmacies
     """
-    pharmacies = [pharmacy for pharmacy in pharmacies if pharmacy['name'].lower() != name.lower()]
+    pharmacies = [
+        pharmacy for pharmacy in pharmacies
+        if pharmacy['name'].lower() != name.lower()
+    ]
     return pharmacies
