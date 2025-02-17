@@ -1,8 +1,23 @@
-# main.py
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
-from app import create_app
+# Initialize extensions
+db = SQLAlchemy()
+login_manager = LoginManager()
 
-app = create_app()
+def create_app():
+    app = Flask(__name__)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    # Load configurations
+    app.config.from_pyfile('config.py')
+
+    # Initialize extensions
+    db.init_app(app)
+    login_manager.init_app(app)
+
+    # Import and register blueprints
+    from .routes import main as main_blueprint
+    app.register_blueprint(main_blueprint)
+
+    return app
