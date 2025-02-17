@@ -1,6 +1,4 @@
 # Removed unused import
-from datetime import datetime
-
 
 def add_reminder(reminders, medication, dose, time):
     """
