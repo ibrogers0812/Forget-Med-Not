@@ -1,5 +1,32 @@
-{
-    "name": "Pharmacy",
-    "phone_number": "123-456-7890",
-    "address": "123 Main Street, City, State, 12345"
-}
+[
+    {
+        "name": "Publix Pharmacy",
+        "address": "1234 Health St, Lake Worth, FL 33467",
+        "phone": "+1-888-123-4567",
+        "email": "contact@publixpharmacy.com",
+        "hours": {
+            "Monday" : "9AM - 9PM",
+            "Tuesday" : "9AM - 9PM",
+            "Wednesday" : "9AM - 9PM",
+            "Thursday" : "9AM - 9PM",
+            "Friday" : "9AM - 9PM",
+            "Saturday" : "9AM - 7PM",
+            "Sunday" : "11AM - 6PM"
+        }
+    },
+    {
+        "name": "Wellness Pharmacy",
+        "address": "5678 Wellness Ave, Lake Worth, FL 33467",
+        "phone": "+1-888-987-6543",
+        "email": "info@wellnesspharmacy.com",
+        "hours": {
+             "Monday" : "9AM - 9PM",
+            "Tuesday" : "9AM - 9PM",
+            "Wednesday" : "9AM - 9PM",
+            "Thursday" : "9AM - 9PM",
+            "Friday" : "9AM - 9PM",
+            "Saturday" : "9AM - 7PM",
+            "Sunday" : "11AM - 6PM"
+        }
+    }
+]
