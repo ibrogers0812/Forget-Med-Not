@@ -1,6 +1,6 @@
+# Removed unused import
 from datetime import datetime
 
-reminders = []
 
 def add_reminder(reminders, medication, dose, time):
     """
@@ -19,6 +19,7 @@ def add_reminder(reminders, medication, dose, time):
     }
     reminders.append(reminder)
 
+
 def update_reminder(reminders, old_reminder, new_time):
     """
     Updates the time of an existing reminder.
@@ -33,6 +34,7 @@ def update_reminder(reminders, old_reminder, new_time):
             reminder["time"] = new_time
             break
 
+
 def delete_reminder(reminders, reminder_to_delete):
     """
     Deletes a reminder from the list.
@@ -43,6 +45,7 @@ def delete_reminder(reminders, reminder_to_delete):
     """
     if reminder_to_delete in reminders:
         reminders.remove(reminder_to_delete)
+
 
 def list_reminders(reminders):
     """
@@ -55,6 +58,7 @@ def list_reminders(reminders):
     - List of reminders sorted by time
     """
     return sorted(reminders, key=lambda x: x["time"])
+
 
 def get_reminders_for_time(reminders, time):
     """
