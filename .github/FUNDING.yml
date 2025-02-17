@@ -1,8 +1,18 @@
-github: ibrogers0812  # Replace with your GitHub Sponsors profile when getting a Sponsor (none as of right now)
-patreon: patreon-username
-open_collective: open-collective-username
-ko_fi: kofi-username
-buymeacoffee: buymeacoffee-username
+github: your-github-username
+patreon: your-patreon-username
+open_collective: your-open-collective-username
+ko_fi: your-ko-fi-username
+tidelift: your-tidelift-username
+community_bridge: your-community-bridge-username
+liberapay: your-liberapay-username
+issuehunt: your-issuehunt-username
+otechie: your-otechie-username
 custom:
-  - url: https://www.paypal.com/donate?hosted_button_id=YOUR-PAYPAL-BUTTON-ID
-    title: Donate via PayPal
+  - url: https://your-custom-funding-platform.com
+    title: Custom Funding
+    - url: https://www.paypal.com/paypalme/your-paypal-username
+    title: PayPal
+  - url: https://cash.app/$your-cashapp-username
+    title: Cash App
+  - url: https://www.zellepay.com/your-zelle-info
+    title: Zelle
