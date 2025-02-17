@@ -1,35 +1,56 @@
 import unittest
-from unittest.mock import patch
 from datetime import datetime, timedelta
-from med_reminders import schedule_reminder, check_reminders, send_notification
+from med_reminders import add_reminder, update_reminder, delete_reminder, list_reminders
 
 class TestMedReminders(unittest.TestCase):
 
-    def test_schedule_reminder(self):
-        reminder = schedule_reminder("Aspirin", "1 tablet", 8)
-        expected_next_dose_time = datetime.now() + timedelta(hours=8)
-        
-        self.assertEqual(reminder["medication_name"], "Aspirin")
-        self.assertEqual(reminder["dose"], "1 tablet")
-        # Allow a small delta for time difference
-        self.assertAlmostEqual(reminder["next_dose_time"], expected_next_dose_time, delta=timedelta(seconds=1))
+    def setUp(self):
+        self.reminders = []
 
-    @patch('builtins.print')
-    def test_send_notification(self, mock_print):
-        send_notification("Aspirin", "1 tablet")
-        mock_print.assert_called_once_with("Reminder: It's time to take 1 tablet of Aspirin.")
-    
-    @patch('med_reminders.send_notification')
-    def test_check_reminders(self, mock_send_notification):
-        reminder = schedule_reminder("Aspirin", "1 tablet", -1)  # Use negative value to trigger reminder immediately
-        reminders = [reminder]
-        
-        updated_reminders = check_reminders(reminders)
-        
-        mock_send_notification.assert_called_once_with("Aspirin", "1 tablet")
-        # Check if the next dose time is updated correctly
-        expected_next_dose_time = datetime.now() + timedelta(hours=8)
-        self.assertAlmostEqual(updated_reminders[0]["next_dose_time"], expected_next_dose_time, delta=timedelta(seconds=1))
+    def test_add_reminder(self):
+        reminder = {
+            "medication": "Aspirin",
+            "dose": "100mg",
+            "time": datetime.now() + timedelta(hours=1)
+        }
+        add_reminder(self.reminders, reminder)
+        self.assertIn(reminder, self.reminders)
+
+    def test_update_reminder(self):
+        reminder = {
+            "medication": "Aspirin",
+            "dose": "100mg",
+            "time": datetime.now() + timedelta(hours=1)
+        }
+        self.reminders.append(reminder)
+        new_time = datetime.now() + timedelta(hours=2)
+        update_reminder(self.reminders, reminder, new_time)
+        self.assertEqual(self.reminders[0]["time"], new_time)
+
+    def test_delete_reminder(self):
+        reminder = {
+            "medication": "Aspirin",
+            "dose": "100mg",
+            "time": datetime.now() + timedelta(hours=1)
+        }
+        self.reminders.append(reminder)
+        delete_reminder(self.reminders, reminder)
+        self.assertNotIn(reminder, self.reminders)
+
+    def test_list_reminders(self):
+        reminder1 = {
+            "medication": "Aspirin",
+            "dose": "100mg",
+            "time": datetime.now() + timedelta(hours=1)
+        }
+        reminder2 = {
+            "medication": "Ibuprofen",
+            "dose": "200mg",
+            "time": datetime.now() + timedelta(hours=2)
+        }
+        self.reminders.extend([reminder1, reminder2])
+        reminders = list_reminders(self.reminders)
+        self.assertEqual(reminders, [reminder1, reminder2])
 
 if __name__ == '__main__':
     unittest.main()
