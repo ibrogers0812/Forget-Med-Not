@@ -1,31 +1,70 @@
-from datetime import datetime, timedelta
-import time
+from datetime import datetime
 
-# Function to schedule medication reminders
-def schedule_reminder(medication_name, dose, frequency_in_hours):
-    next_dose_time = datetime.now() + timedelta(hours=frequency_in_hours)
-    return {"medication_name": medication_name, "dose": dose, "next_dose_time": next_dose_time}
+reminders = []
 
-# Function to send a notification (placeholder)
-def send_notification(medication_name, dose):
-    print(f"Reminder: It's time to take {dose} of {medication_name}.")
+def add_reminder(reminders, medication, dose, time):
+    """
+    Adds a reminder to the list.
 
-# Function to check and send reminders
-def check_reminders(reminders):
-    current_time = datetime.now()
+    Parameters:
+    - reminders: list of reminders
+    - medication: name of the medication
+    - dose: dose of the medication
+    - time: time of the reminder
+    """
+    reminder = {
+        "medication": medication,
+        "dose": dose,
+        "time": time
+    }
+    reminders.append(reminder)
+
+def update_reminder(reminders, old_reminder, new_time):
+    """
+    Updates the time of an existing reminder.
+
+    Parameters:
+    - reminders: list of reminders
+    - old_reminder: the reminder to be updated
+    - new_time: new time for the reminder
+    """
     for reminder in reminders:
-        if reminder["next_dose_time"] <= current_time:
-            send_notification(reminder["medication_name"], reminder["dose"])
-            reminder["next_dose_time"] = current_time + timedelta(hours=8)  # Schedule next dose (adjust frequency as needed)
-    return reminders
+        if reminder == old_reminder:
+            reminder["time"] = new_time
+            break
 
-# Example usage
-if __name__ == "__main__":
-    reminders = []
-    reminders.append(schedule_reminder("Aspirin", "1 tablet", 8))
-    reminders.append(schedule_reminder("Vitamin D", "1 capsule", 24))
-    
-    # Main loop to continuously check for reminders
-    while True:
-        reminders = check_reminders(reminders)
-        time.sleep(60)  # Check every minute
+def delete_reminder(reminders, reminder_to_delete):
+    """
+    Deletes a reminder from the list.
+
+    Parameters:
+    - reminders: list of reminders
+    - reminder_to_delete: the reminder to be deleted
+    """
+    if reminder_to_delete in reminders:
+        reminders.remove(reminder_to_delete)
+
+def list_reminders(reminders):
+    """
+    Lists all reminders sorted by time.
+
+    Parameters:
+    - reminders: list of reminders
+
+    Returns:
+    - List of reminders sorted by time
+    """
+    return sorted(reminders, key=lambda x: x["time"])
+
+def get_reminders_for_time(reminders, time):
+    """
+    Gets all reminders for a specific time.
+
+    Parameters:
+    - reminders: list of reminders
+    - time: target time to filter reminders
+
+    Returns:
+    - List of reminders at the specified time
+    """
+    return [reminder for reminder in reminders if reminder["time"] == time]
