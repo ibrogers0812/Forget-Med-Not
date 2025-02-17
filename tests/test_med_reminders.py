@@ -16,7 +16,10 @@ class TestMedReminders(unittest.TestCase):
             "dose": "100mg",
             "time": datetime.now() + timedelta(hours=1)
         }
-        add_reminder(self.reminders, reminder["medication"], reminder["dose"], reminder["time"])
+        add_reminder(
+            self.reminders, reminder["medication"], 
+            reminder["dose"], reminder["time"]
+        )
         self.assertIn(reminder, self.reminders)
 
     def test_update_reminder(self):
@@ -27,7 +30,9 @@ class TestMedReminders(unittest.TestCase):
         }
         self.reminders.append(reminder)
         new_time = datetime.now() + timedelta(hours=2)
-        update_reminder(self.reminders, reminder, new_time)
+        update_reminder(
+            self.reminders, reminder, new_time
+        )
         self.assertEqual(self.reminders[0]["time"], new_time)
 
     def test_delete_reminder(self):
