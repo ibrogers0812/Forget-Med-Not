@@ -1,45 +1,77 @@
-import re
+import json
 
+def load_pharmacy_data(file_path):
+    """
+    Loads pharmacy data from a JSON file.
 
-# Function for user to input pharmacy data
-def getPharmacyInfo():
-    # Initializes variable for user start input
-    userIn = input("Would you like to input or change pharmacy information? (Y/N): ")
+    Parameters:
+    - file_path: path to the JSON file
 
-    # User indicated that they would like to amend or input data
-    if userIn.upper() == "Y":
-        # Initializes variable for pharmacy name
-        pharName = input("Please input the name of your pharmacy: ")
+    Returns:
+    - List of pharmacies
+    """
+    with open(file_path, 'r') as file:
+        pharmacies = json.load(file)
+    return pharmacies
 
-        # Ensures that user is using correct format
-        phone_pattern = r'^\d{3}-\d{3}-\d{4}$'
-        while True:
-            # Initializes variable for pharmacy number
-            pharNumber = input("Please input the phone number of your pharmacy (xxx-xxx-xxxx): ")
-            if re.match(phone_pattern, pharNumber):
-                break
-            else:
-                print("Invalid phone number format. Please try again.")
+def get_pharmacy_info(pharmacies, name):
+    """
+    Retrieves information for a specific pharmacy by name.
 
-        # Ensures that user is using correct format
-        address_pattern = r'^[\w\s]+,\s*[\w\s]+,\s*[\w\s]+,\s*\d{5}$'
-        while True:
-            # Initializes variable for pharmacy address
-            pharAddress = input("Please input the address of your pharmacy (Street address, City, State, Postal code): ")
-            if re.match(address_pattern, pharAddress):
-                break
-            else:
-                print("Invalid address format. Please try again.")
+    Parameters:
+    - pharmacies: list of pharmacies
+    - name: name of the pharmacy to retrieve information for
 
-        # Prints the pharmacy information inputted by user
-        print("Pharmacy Name:", pharName)
-        print("Pharmacy Phone Number:", pharNumber)
-        print("Pharmacy Address:", pharAddress)
+    Returns:
+    - Dictionary containing pharmacy information or None if not found
+    """
+    for pharmacy in pharmacies:
+        if pharmacy['name'].lower() == name.lower():
+            return pharmacy
+    return None
 
-    # User indicated that they would not like to amend or input data
-    elif userIn.upper() == "N":
-        print("Thank you for visiting and/or inputting your pharmacy information.")
+def add_pharmacy_info(pharmacies, new_pharmacy):
+    """
+    Adds new pharmacy information to the list.
 
-     # Invalid initial user input
-    else:
-        print("Invalid input.")
+    Parameters:
+    - pharmacies: list of pharmacies
+    - new_pharmacy: dictionary containing new pharmacy information
+
+    Returns:
+    - Updated list of pharmacies
+    """
+    pharmacies.append(new_pharmacy)
+    return pharmacies
+
+def update_pharmacy_info(pharmacies, name, updated_info):
+    """
+    Updates information for a specific pharmacy by name.
+
+    Parameters:
+    - pharmacies: list of pharmacies
+    - name: name of the pharmacy to update
+    - updated_info: dictionary containing updated pharmacy information
+
+    Returns:
+    - Updated list of pharmacies
+    """
+    for pharmacy in pharmacies:
+        if pharmacy['name'].lower() == name.lower():
+            pharmacy.update(updated_info)
+            break
+    return pharmacies
+
+def delete_pharmacy_info(pharmacies, name):
+    """
+    Deletes a specific pharmacy by name.
+
+    Parameters:
+    - pharmacies: list of pharmacies
+    - name: name of the pharmacy to delete
+
+    Returns:
+    - Updated list of pharmacies
+    """
+    pharmacies = [pharmacy for pharmacy in pharmacies if pharmacy['name'].lower() != name.lower()]
+    return pharmacies
