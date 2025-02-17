@@ -1,6 +1,6 @@
 import unittest
 from pharmacyinfo import (
-    get_pharmacy_info, add_pharmacy_info, 
+    get_pharmacy_info, add_pharmacy_info,
     update_pharmacy_info, delete_pharmacy_info
 )
 
