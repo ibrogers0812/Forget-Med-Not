@@ -1,5 +1,18 @@
 blank_issues_enabled: false
 contact_links:
-  - name: GitHub Community Support
-    url: https://github.com/orgs/community/discussions
-    about: Please ask and answer questions here.
+  - name: Documentation
+    url: https://github.com/your-username/Forget-Med-Not/wiki
+    about: "Read the project documentation for more information."
+  - name: Support
+    url: https://github.com/your-username/Forget-Med-Not/discussions
+    about: "Start a discussion to ask questions or seek support."
+    
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "flask"
+        versions: ["==2.0.0"]
