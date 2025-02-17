@@ -1,4 +1,6 @@
-from datetime import datetime
+# Remove the unused import statement
+# from datetime import datetime
+
 
 def add_event(calendar, event):
     """
