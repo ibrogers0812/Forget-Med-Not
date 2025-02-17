@@ -5,12 +5,15 @@ from med_reminders import add_reminder, update_reminder, delete_reminder, \
     list_reminders
 import json
 
+
 main = Blueprint('main', __name__)
 reminders = []  # Initialize the reminders list
+
 
 @main.route('/')
 def index():
     return render_template('index.html')
+
 
 @main.route('/add_reminder', methods=['GET', 'POST'])
 def add_reminder_view():
@@ -24,6 +27,7 @@ def add_reminder_view():
         flash('Reminder added successfully!')
         return redirect(url_for('main.index'))
     return render_template('add_reminder.html')
+
 
 @main.route('/update_reminder', methods=['GET', 'POST'])
 def update_reminder_view():
@@ -40,6 +44,7 @@ def update_reminder_view():
         return redirect(url_for('main.index'))
     return render_template('update_reminder.html')
 
+
 @main.route('/delete_reminder', methods=['POST'])
 def delete_reminder_view():
     time = request.form.get('time')
@@ -51,10 +56,12 @@ def delete_reminder_view():
         flash('Reminder deleted successfully!')
     return redirect(url_for('main.index'))
 
+
 @main.route('/list_reminders')
 def list_reminders_view():
     reminder_list = list_reminders(reminders)
     return render_template('list_reminders.html', reminders=reminder_list)
+
 
 @main.route('/pharmacies')
 def pharmacies_view():
