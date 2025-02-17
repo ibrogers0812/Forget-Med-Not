@@ -16,7 +16,7 @@ def add_event(calendar, event):
 def remove_event(calendar, event):
     """
     Removes an event from the calendar.
-    
+
     Parameters:
     - calendar: list of events
     - event: dictionary containing event details (e.g., title, date)
@@ -28,7 +28,7 @@ def remove_event(calendar, event):
 def list_events(calendar):
     """
     Lists all events in the calendar.
-    
+
     Parameters:
     - calendar: list of events
 
