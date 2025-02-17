@@ -1,29 +1,15 @@
-import json
 import unittest
+from pharmacyinfo import get_pharmacy_info, add_pharmacy_info, update_pharmacy_info, delete_pharmacy_info
 
 class TestPharmacyInfo(unittest.TestCase):
+
     def setUp(self):
-        self.pharmacy_data = [
+        self.pharmacies = [
             {
-                "name": "Publix Pharmacy",
-                "address": "1234 Health St, Lake Worth, FL 33467",
-                "phone": "+1-888-123-4567",
-                "email": "contact@publixpharmacy.com",
-                "hours": {
-                    "Monday": "9AM - 9PM",
-                    "Tuesday": "9AM - 9PM",
-                    "Wednesday": "9AM - 9PM",
-                    "Thursday": "9AM - 9PM",
-                    "Friday": "9AM - 9PM",
-                    "Saturday": "9AM - 7PM",
-                    "Sunday": "11AM - 6PM"
-                }
-            },
-            {
-                "name": "Wellness Pharmacy",
-                "address": "5678 Wellness Ave, Lake Worth, FL 33467",
-                "phone": "+1-888-987-6543",
-                "email": "info@wellnesspharmacy.com",
+                "name": "HealthFirst Pharmacy",
+                "address": "1234 Health St, Lake Worth, FL 33460",
+                "phone": "+1-555-123-4567",
+                "email": "contact@healthfirstpharmacy.com",
                 "hours": {
                     "Monday": "9AM - 9PM",
                     "Tuesday": "9AM - 9PM",
@@ -36,43 +22,45 @@ class TestPharmacyInfo(unittest.TestCase):
             }
         ]
 
-    def test_pharmacy_names(self):
-        self.assertEqual(self.pharmacy_data[0]['name'], "Publix Pharmacy")
-        self.assertEqual(self.pharmacy_data[1]['name'], "Wellness Pharmacy")
+    def test_get_pharmacy_info(self):
+        pharmacy_name = "HealthFirst Pharmacy"
+        info = get_pharmacy_info(self.pharmacies, pharmacy_name)
+        self.assertIsNotNone(info)
+        self.assertEqual(info["name"], pharmacy_name)
 
-    def test_pharmacy_addresses(self):
-        self.assertEqual(self.pharmacy_data[0]['address'], "1234 Health St, Lake Worth, FL 33467")
-        self.assertEqual(self.pharmacy_data[1]['address'], "5678 Wellness Ave, Lake Worth, FL 33467")
-
-    def test_pharmacy_phones(self):
-        self.assertEqual(self.pharmacy_data[0]['phone'], "+1-888-123-4567")
-        self.assertEqual(self.pharmacy_data[1]['phone'], "+1-888-987-6543")
-
-    def test_pharmacy_emails(self):
-        self.assertEqual(self.pharmacy_data[0]['email'], "contact@publixpharmacy.com")
-        self.assertEqual(self.pharmacy_data[1]['email'], "info@wellnesspharmacy.com")
-
-    def test_pharmacy_hours(self):
-        expected_hours_publix = {
-            "Monday": "9AM - 9PM",
-            "Tuesday": "9AM - 9PM",
-            "Wednesday": "9AM - 9PM",
-            "Thursday": "9AM - 9PM",
-            "Friday": "9AM - 9PM",
-            "Saturday": "9AM - 7PM",
-            "Sunday": "11AM - 6PM"
+    def test_add_pharmacy_info(self):
+        new_pharmacy = {
+            "name": "Wellness Pharmacy",
+            "address": "5678 Wellness Ave, Lake Worth, FL 33460",
+            "phone": "+1-555-987-6543",
+            "email": "info@wellnesspharmacy.com",
+            "hours": {
+                "Monday": "9AM - 9PM",
+                "Tuesday": "9AM - 9PM",
+                "Wednesday": "9AM - 9PM",
+                "Thursday": "9AM - 9PM",
+                "Friday": "9AM - 9PM",
+                "Saturday": "9AM - 7PM",
+                "Sunday": "11AM - 6PM"
+            }
         }
-        expected_hours_wellness = {
-            "Monday": "9AM - 9PM",
-            "Tuesday": "9AM - 9PM",
-            "Wednesday": "9AM - 9PM",
-            "Thursday": "9AM - 9PM",
-            "Friday": "9AM - 9PM",
-            "Saturday": "9AM - 7PM",
-            "Sunday": "11AM - 6PM"
+        add_pharmacy_info(self.pharmacies, new_pharmacy)
+        self.assertIn(new_pharmacy, self.pharmacies)
+
+    def test_update_pharmacy_info(self):
+        pharmacy_name = "HealthFirst Pharmacy"
+        new_info = {
+            "phone": "+1-555-000-0000"
         }
-        self.assertEqual(self.pharmacy_data[0]['hours'], expected_hours_publix)
-        self.assertEqual(self.pharmacy_data[1]['hours'], expected_hours_wellness)
+        update_pharmacy_info(self.pharmacies, pharmacy_name, new_info)
+        updated_info = get_pharmacy_info(self.pharmacies, pharmacy_name)
+        self.assertEqual(updated_info["phone"], "+1-555-000-0000")
+
+    def test_delete_pharmacy_info(self):
+        pharmacy_name = "HealthFirst Pharmacy"
+        delete_pharmacy_info(self.pharmacies, pharmacy_name)
+        info = get_pharmacy_info(self.pharmacies, pharmacy_name)
+        self.assertIsNone(info)
 
 if __name__ == '__main__':
     unittest.main()
