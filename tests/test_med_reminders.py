@@ -14,10 +14,10 @@ class TestMedReminders(unittest.TestCase):
         reminder = {
             "medication": "Aspirin",
             "dose": "100mg",
-            "time": datetime.now() + timedelta(hours=1)
+            "time": datetime.now() + timedelta(hours=1),
         }
         add_reminder(
-            self.reminders, reminder["medication"], 
+            self.reminders, reminder["medication"],
             reminder["dose"], reminder["time"]
         )
         self.assertIn(reminder, self.reminders)
@@ -26,7 +26,7 @@ class TestMedReminders(unittest.TestCase):
         reminder = {
             "medication": "Aspirin",
             "dose": "100mg",
-            "time": datetime.now() + timedelta(hours=1)
+            "time": datetime.now() + timedelta(hours=1),
         }
         self.reminders.append(reminder)
         new_time = datetime.now() + timedelta(hours=2)
@@ -39,7 +39,7 @@ class TestMedReminders(unittest.TestCase):
         reminder = {
             "medication": "Aspirin",
             "dose": "100mg",
-            "time": datetime.now() + timedelta(hours=1)
+            "time": datetime.now() + timedelta(hours=1),
         }
         self.reminders.append(reminder)
         delete_reminder(self.reminders, reminder)
@@ -49,12 +49,12 @@ class TestMedReminders(unittest.TestCase):
         reminder1 = {
             "medication": "Aspirin",
             "dose": "100mg",
-            "time": datetime.now() + timedelta(hours=1)
+            "time": datetime.now() + timedelta(hours=1),
         }
         reminder2 = {
             "medication": "Ibuprofen",
             "dose": "200mg",
-            "time": datetime.now() + timedelta(hours=2)
+            "time": datetime.now() + timedelta(hours=2),
         }
         self.reminders.extend([reminder1, reminder2])
         reminders = list_reminders(self.reminders)
@@ -63,3 +63,4 @@ class TestMedReminders(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
