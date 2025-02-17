@@ -1,6 +1,7 @@
 import unittest
 from pharmacyinfo import (
-    get_pharmacy_info, add_pharmacy_info, update_pharmacy_info, delete_pharmacy_info
+    get_pharmacy_info, add_pharmacy_info, 
+    update_pharmacy_info, delete_pharmacy_info
 )
 
 
@@ -25,13 +26,11 @@ class TestPharmacyInfo(unittest.TestCase):
             }
         ]
 
-
     def test_get_pharmacy_info(self):
         pharmacy_name = "HealthFirst Pharmacy"
         info = get_pharmacy_info(self.pharmacies, pharmacy_name)
         self.assertIsNotNone(info)
         self.assertEqual(info["name"], pharmacy_name)
-
 
     def test_add_pharmacy_info(self):
         new_pharmacy = {
@@ -52,7 +51,6 @@ class TestPharmacyInfo(unittest.TestCase):
         add_pharmacy_info(self.pharmacies, new_pharmacy)
         self.assertIn(new_pharmacy, self.pharmacies)
 
-
     def test_update_pharmacy_info(self):
         pharmacy_name = "HealthFirst Pharmacy"
         new_info = {
@@ -61,7 +59,6 @@ class TestPharmacyInfo(unittest.TestCase):
         update_pharmacy_info(self.pharmacies, pharmacy_name, new_info)
         updated_info = get_pharmacy_info(self.pharmacies, pharmacy_name)
         self.assertEqual(updated_info["phone"], "+1-555-000-0000")
-
 
     def test_delete_pharmacy_info(self):
         pharmacy_name = "HealthFirst Pharmacy"
