@@ -76,10 +76,6 @@ def delete_pharmacy_info(pharmacies, name):
     - name: name of the pharmacy to delete
 
     Returns:
-    - Updated list of pharmacies
+    - None (modifies the list in place)
     """
-    pharmacies = [
-        pharmacy for pharmacy in pharmacies
-        if pharmacy['name'].lower() != name.lower()
-    ]
-    return pharmacies
+    pharmacies[:] = [pharmacy for pharmacy in pharmacies if pharmacy['name'].lower() != name.lower()]

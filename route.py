@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request, \
-    redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from datetime import datetime
-from med_reminders import add_reminder, update_reminder, delete_reminder, \
-    list_reminders
+from med_reminders import (
+    add_reminder, update_reminder, delete_reminder, list_reminders
+)
 import json
 
 
@@ -22,10 +22,13 @@ def add_reminder_view():
         dose = request.form.get('dose')
         time = request.form.get('time')
         time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+
         reminder = {"medication": medication, "dose": dose, "time": time}
         add_reminder(reminders, reminder)
+
         flash('Reminder added successfully!')
         return redirect(url_for('main.index'))
+
     return render_template('add_reminder.html')
 
 
@@ -34,14 +37,20 @@ def update_reminder_view():
     if request.method == 'POST':
         old_time = request.form.get('old_time')
         new_time = request.form.get('new_time')
+
         old_time = datetime.strptime(old_time, '%Y-%m-%d %H:%M:%S')
         new_time = datetime.strptime(new_time, '%Y-%m-%d %H:%M:%S')
-        old_reminder = next((r for r in reminders
-                             if r['time'] == old_time), None)
+
+        old_reminder = next(
+            (r for r in reminders if r['time'] == old_time), None
+        )
+
         if old_reminder:
             update_reminder(reminders, old_reminder, new_time)
             flash('Reminder updated successfully!')
+
         return redirect(url_for('main.index'))
+
     return render_template('update_reminder.html')
 
 
@@ -49,11 +58,15 @@ def update_reminder_view():
 def delete_reminder_view():
     time = request.form.get('time')
     time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
-    reminder_to_delete = next((r for r in reminders
-                               if r['time'] == time), None)
+
+    reminder_to_delete = next(
+        (r for r in reminders if r['time'] == time), None
+    )
+
     if reminder_to_delete:
         delete_reminder(reminders, reminder_to_delete)
         flash('Reminder deleted successfully!')
+
     return redirect(url_for('main.index'))
 
 

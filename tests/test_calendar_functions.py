@@ -1,5 +1,5 @@
 import unittest
-from .calendar_functions import add_event, remove_event, list_events
+from calendar_functions import add_event, remove_event, list_events
 
 
 class TestCalendarFunctions(unittest.TestCase):

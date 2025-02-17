@@ -16,7 +16,7 @@ class TestMedReminders(unittest.TestCase):
             "dose": "100mg",
             "time": datetime.now() + timedelta(hours=1)
         }
-        add_reminder(self.reminders, reminder)
+        add_reminder(self.reminders, reminder["medication"], reminder["dose"], reminder["time"])
         self.assertIn(reminder, self.reminders)
 
     def test_update_reminder(self):
