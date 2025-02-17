@@ -1,34 +1,60 @@
-# Remove unused imports
-from flask import Flask, request, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from app import db
 from datetime import datetime
+from med_reminders import add_reminder, update_reminder, delete_reminder, list_reminders
+from pharmacyinfo import get_pharmacy_info
+import json
 
-# Ensure 2 blank lines before functions
-def send_notification(user, message):
-    # Logic to send notifications (e.g., email, SMS)
-    pass
+main = Blueprint('main', __name__)
 
-def get_medication_schedule(user_id):
-    # Logic to retrieve user's medication schedule from the database
-    pass
+@main.route('/')
+def index():
+    return render_template('index.html')
 
-def create_reminder(user_id, medication, time):
-    # Logic to create a medication reminder
-    pass
+@main.route('/add_reminder', methods=['GET', 'POST'])
+def add_reminder_view():
+    if request.method == 'POST':
+        medication = request.form.get('medication')
+        dose = request.form.get('dose')
+        time = request.form.get('time')
+        time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+        reminder = {"medication": medication, "dose": dose, "time": time}
+        add_reminder(reminders, reminder)
+        flash('Reminder added successfully!')
+        return redirect(url_for('main.index'))
+    return render_template('add_reminder.html')
 
-def setup_routes(app):
-    @app.route('/remind', methods=['POST'])
-    def remind():
-        data = request.get_json()
-        user_id = data['user_id']
-        medication = data['medication']
-        time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S')
-        create_reminder(user_id, medication, time)
-        return jsonify({"status": "Reminder set"}), 201
+@main.route('/update_reminder', methods=['GET', 'POST'])
+def update_reminder_view():
+    if request.method == 'POST':
+        old_time = request.form.get('old_time')
+        new_time = request.form.get('new_time')
+        old_time = datetime.strptime(old_time, '%Y-%m-%d %H:%M:%S')
+        new_time = datetime.strptime(new_time, '%Y-%m-%d %H:%M:%S')
+        old_reminder = next((r for r in reminders if r['time'] == old_time), None)
+        if old_reminder:
+            update_reminder(reminders, old_reminder, new_time)
+            flash('Reminder updated successfully!')
+        return redirect(url_for('main.index'))
+    return render_template('update_reminder.html')
 
-    @app.route('/notify', methods=['POST'])
-    def notify():
-        data = request.get_json()
-        user = data['user']
-        message = data['message']
-        send_notification(user, message)
-        return jsonify({"status": "Notification sent"}), 200
+@main.route('/delete_reminder', methods=['POST'])
+def delete_reminder_view():
+    time = request.form.get('time')
+    time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+    reminder_to_delete = next((r for r in reminders if r['time'] == time), None)
+    if reminder_to_delete:
+        delete_reminder(reminders, reminder_to_delete)
+        flash('Reminder deleted successfully!')
+    return redirect(url_for('main.index'))
+
+@main.route('/list_reminders')
+def list_reminders_view():
+    reminder_list = list_reminders(reminders)
+    return render_template('list_reminders.html', reminders=reminder_list)
+
+@main.route('/pharmacies')
+def pharmacies_view():
+    with open('data/pharmacy_info.json', 'r') as file:
+        pharmacies = json.load(file)
+    return render_template('pharmacies.html', pharmacies=pharmacies)
