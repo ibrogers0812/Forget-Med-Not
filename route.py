@@ -5,6 +5,7 @@ import json
 
 
 main = Blueprint('main', __name__)
+reminders = []  # Initialize the reminders list
 
 
 @main.route('/')
