@@ -69,7 +69,7 @@ def update_pharmacy_info(pharmacies, name, updated_info):
 
 def delete_pharmacy_info(pharmacies, name):
     """
-    Deletes a specific pharmacy by name.
+    Deletes a specific pharmacy by name
 
     Parameters:
     - pharmacies: list of pharmacies
