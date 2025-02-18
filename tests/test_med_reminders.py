@@ -1,6 +1,6 @@
 import unittest
 from datetime import datetime, timedelta
-from src.med_reminders import (
+from med_reminders import (
     add_reminder, update_reminder, delete_reminder, list_reminders
 )
 
