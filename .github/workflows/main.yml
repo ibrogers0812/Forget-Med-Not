@@ -43,5 +43,5 @@ jobs:
         git config --global user.name "Your Name"
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
         git add .
-        git commit -m "Automated deployment commit"
-        git push origin main
+        git commit -m "Automated deployment commit" || echo "No changes to commit"
+        git push origin main || echo "Nothing to push"
