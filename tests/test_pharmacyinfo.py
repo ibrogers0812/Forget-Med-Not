@@ -4,6 +4,7 @@ from src.pharmacyinfo import (
     update_pharmacy_info, delete_pharmacy_info
 )
 
+
 class TestPharmacyInfo(unittest.TestCase):
 
     def setUp(self):
