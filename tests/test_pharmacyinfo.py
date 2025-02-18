@@ -4,6 +4,7 @@ from app.pharmacyinfo import (
     update_pharmacy_info, delete_pharmacy_info
 )
 
+
 class TestPharmacyInfo(unittest.TestCase):
 
     def setUp(self):
@@ -64,6 +65,7 @@ class TestPharmacyInfo(unittest.TestCase):
         delete_pharmacy_info(self.pharmacies, pharmacy_name)
         info = get_pharmacy_info(self.pharmacies, pharmacy_name)
         self.assertIsNone(info)
+
 
 if __name__ == '__main__':
     unittest.main()
