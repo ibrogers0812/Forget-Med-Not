@@ -1,9 +1,8 @@
 import unittest
-from pharmacyinfo import (
+from src.pharmacyinfo import (
     get_pharmacy_info, add_pharmacy_info,
     update_pharmacy_info, delete_pharmacy_info
 )
-
 
 class TestPharmacyInfo(unittest.TestCase):
 
