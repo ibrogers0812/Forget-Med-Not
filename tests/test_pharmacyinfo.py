@@ -1,9 +1,8 @@
 import unittest
-from src.pharmacyinfo import (
+from app.pharmacyinfo import (
     get_pharmacy_info, add_pharmacy_info,
     update_pharmacy_info, delete_pharmacy_info
 )
-
 
 class TestPharmacyInfo(unittest.TestCase):
 
@@ -65,7 +64,6 @@ class TestPharmacyInfo(unittest.TestCase):
         delete_pharmacy_info(self.pharmacies, pharmacy_name)
         info = get_pharmacy_info(self.pharmacies, pharmacy_name)
         self.assertIsNone(info)
-
 
 if __name__ == '__main__':
     unittest.main()
