@@ -1,0 +1,13 @@
+{
+  "name": "forget-med-not",
+  "version": "1.0.0",
+  "description": "Medication reminder app",
+  "main": "main.py",
+  "scripts": {
+    "build": "echo 'No build step required for Flask project'",
+    "start": "flask run"
+  },
+  "dependencies": {
+    "flask": "^2.0.2"
+  }
+}
