@@ -1,4 +1,3 @@
-import json
 import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
