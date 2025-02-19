@@ -2,9 +2,8 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
+
 @pytest.fixture
-
-
 def client():
     """Set up a test client for the Flask application."""
     app = Flask(__name__)
@@ -36,5 +35,3 @@ def test_add_event_to_calendar(client):
 
     assert events_response.status_code == 200  # Ensure event list is accessible
     assert "Doctor Appointment" in events_response.get_data(as_text=True), "Test Failed: Event was not added successfully."
-
-
