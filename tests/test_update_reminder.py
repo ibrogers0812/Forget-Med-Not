@@ -3,6 +3,7 @@ from flask import Flask
 from datetime import datetime
 from route import main  # Import the Flask blueprint
 
+
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,6 +11,7 @@ def client():
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
+
 
 def test_update_medication_reminder_time(client):
     """
