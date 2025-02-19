@@ -26,7 +26,9 @@ def test_add_event_to_calendar(client):
     }
 
     # Step 2: Send a request to add the event
-    response = client.post('/add_event', data=event_data, follow_redirects=True)
+    response = client.post(
+        '/add_event', data=event_data, follow_redirects=True
+    )
 
     assert response.status_code == 200  # Ensure the request was successful
 
@@ -34,4 +36,6 @@ def test_add_event_to_calendar(client):
     events_response = client.get('/list_events')
 
     assert events_response.status_code == 200  # Ensure event list is accessible
-    assert "Doctor Appointment" in events_response.get_data(as_text=True), "Test Failed: Event was not added successfully."
+    assert "Doctor Appointment" in events_response.get_data(
+        as_text=True
+    ), "Test Failed: Event was not added successfully."
