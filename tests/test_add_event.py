@@ -27,7 +27,9 @@ def test_add_event_to_calendar(client):
 
     # Step 2: Send a request to add the event
     response = client.post(
-        '/add_event', data=event_data, follow_redirects=True
+        '/add_event',
+        data=event_data,
+        follow_redirects=True
     )
 
     assert response.status_code == 200  # Ensure the request was successful
