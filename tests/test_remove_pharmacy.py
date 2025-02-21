@@ -44,7 +44,7 @@ def test_remove_pharmacy(client, mocker):
 
     # Step 3: Retrieve pharmacy list and confirm removal
     response = client.get('/pharmacies')
-    assert response.status_code == 200  # Ensure the pharmacy list is accessible
+    assert response.status_code == 200  # Ensure pharmacy list is accessible
 
     pharmacy_list = json.loads(response.data)
     search_result = next(
