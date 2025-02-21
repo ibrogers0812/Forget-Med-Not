@@ -3,7 +3,7 @@ from flask import Flask
 from route import main  # Import the Flask blueprint
 
 
-@pytest.fixture
+@pytest.fixture #Added 2 lines above
 def client():
     """Set up a test client for the Flask application."""
     app = Flask(__name__)
