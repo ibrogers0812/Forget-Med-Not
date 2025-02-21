@@ -28,7 +28,7 @@ def test_search_unknown_pharmacy(client, mocker):
 
     # Mock the file reading process to return predefined data
     mocker.patch(
-        "builtins.open", 
+        "builtins.open",
         mocker.mock_open(read_data=json.dumps(mock_pharmacy_data))
     )
 
@@ -40,7 +40,7 @@ def test_search_unknown_pharmacy(client, mocker):
     # Check if the unknown pharmacy is NOT in the returned pharmacy list
     pharmacy_list = json.loads(response.data)
     search_result = next(
-        (ph for ph in pharmacy_list if ph['name'] == "Unknown Pharmacy"), 
+        (ph for ph in pharmacy_list if ph['name'] == "Unknown Pharmacy"),
         None
     )
 
