@@ -41,4 +41,3 @@ def test_search_medication(client):
     assert (
         test_medication in response.get_data(as_text=True)
     ), "Test Failed: Medication not found in search results."
-    
