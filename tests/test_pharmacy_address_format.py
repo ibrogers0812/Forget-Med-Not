@@ -2,7 +2,6 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
-
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -11,10 +10,10 @@ def client():
     app.config['TESTING'] = True
     return app.test_client()
 
-
 def test_pharmacy_address_format(client, mocker):
     """
-    Test case to check if the add_pharmacy_info function correctly formats the pharmacy's address.
+    Test case to check if the add_pharmacy_info function correctly
+    formats the pharmacy's address.
     """
 
     # Step 1: Define test pharmacy information
@@ -31,10 +30,17 @@ def test_pharmacy_address_format(client, mocker):
 
     # Mock function to add pharmacy info
     mock_pharmacy_data = []
+
     def mock_add_pharmacy_info(pharmacy_data):
         """Mock function to simulate adding pharmacy info."""
-        formatted_address = f"{pharmacy_data['street']}, {pharmacy_data['city']}, {pharmacy_data['state']}, {pharmacy_data['postal_code']}"
-        mock_pharmacy_data.append({"name": pharmacy_data["name"], "address": formatted_address})
+        formatted_address = (
+            f"{pharmacy_data['street']}, {pharmacy_data['city']}, "
+            f"{pharmacy_data['state']}, {pharmacy_data['postal_code']}"
+        )
+        mock_pharmacy_data.append({
+            "name": pharmacy_data["name"],
+            "address": formatted_address
+        })
 
     # Patch the add_pharmacy_info function
     mocker.patch("route.add_pharmacy_info", side_effect=mock_add_pharmacy_info)
@@ -43,4 +49,6 @@ def test_pharmacy_address_format(client, mocker):
     client.post('/add_pharmacy', data=test_pharmacy_data, follow_redirects=True)
 
     # Step 3: Verify the address format in the stored data
-    assert mock_pharmacy_data[0]["address"] == expected_address, "Test Failed: Address format is incorrect."
+    assert mock_pharmacy_data[0]["address"] == expected_address, (
+        "Test Failed: Address format is incorrect."
+    )
