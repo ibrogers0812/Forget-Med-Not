@@ -10,6 +10,7 @@ def client():
     app.config['TESTING'] = True
     return app.test_client()
 
+
 def test_update_medication_reminder_time(client):
     """
     Test case to check if a user can successfully update the time of an
