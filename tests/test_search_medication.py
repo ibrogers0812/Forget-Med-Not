@@ -2,7 +2,6 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
-
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,7 +9,6 @@ def client():
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
-
 
 def test_search_medication(client):
     """
@@ -26,7 +24,11 @@ def test_search_medication(client):
     }
 
     # Add the medication to the system
-    client.post('/add_reminder', data=reminder_data, follow_redirects=True)
+    client.post(
+        '/add_reminder', 
+        data=reminder_data, 
+        follow_redirects=True
+    )
 
     # Step 2: Perform a search request
     response = client.get(f'/list_reminders?search={test_medication}')
@@ -34,4 +36,6 @@ def test_search_medication(client):
     assert response.status_code == 200  # Ensure the request was successful
 
     # Step 3: Verify if the medication appears in the response
-    assert test_medication in response.get_data(as_text=True), "Test Failed: Medication not found in search results."
+    assert (
+        test_medication in response.get_data(as_text=True)
+    ), "Test Failed: Medication not found in search results."
