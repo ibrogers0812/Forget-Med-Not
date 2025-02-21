@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
-
+from werkzeug.utils import quote  # Corrected import statement for Werkzeug
 
 @pytest.fixture
 def client():
@@ -33,14 +33,11 @@ def test_add_multiple_medications(client):
 
     # Step 2: Retrieve reminders and check if all were added
     reminders_response = client.get('/list_reminders')
-
     assert reminders_response.status_code == 200  # List is accessible
     reminders_text = reminders_response.get_data(as_text=True)
 
     # Count occurrences of 'Medication' in the response
-    medication_count = reminders_text.count(
-        "Medication"
-    )
+    medication_count = reminders_text.count("Medication")
 
     # Example: Check if at least ten medications were added
     assert medication_count >= 10, (
