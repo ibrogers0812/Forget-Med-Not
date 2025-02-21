@@ -44,7 +44,7 @@ def test_remove_medication_reminder(client):
     # Step 3: Retrieve reminders and confirm removal
     reminders_response = client.get('/list_reminders')
 
-    assert reminders_response.status_code == 200  # Ensure reminders are accessible
+    assert reminders_response.status_code == 200  # Reminders are accessible
 
     assert (
         test_medication not in reminders_response.get_data(as_text=True)
