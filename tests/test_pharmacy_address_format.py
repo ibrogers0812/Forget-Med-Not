@@ -48,7 +48,11 @@ def test_pharmacy_address_format(client, mocker):
     mocker.patch("route.add_pharmacy_info", side_effect=mock_add_pharmacy_info)
 
     # Step 2: Call the function with test data
-    client.post('/add_pharmacy', data=test_pharmacy_data, follow_redirects=True)
+    client.post(
+        '/add_pharmacy',
+        data=test_pharmacy_data,
+        follow_redirects=True
+    )
 
     # Step 3: Verify the address format in the stored data
     assert mock_pharmacy_data[0]["address"] == expected_address, (
