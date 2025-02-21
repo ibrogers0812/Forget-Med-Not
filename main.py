@@ -12,4 +12,4 @@ def index():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user=current_user) #Added a blank line back
+    return render_template('dashboard.html', user=current_user)
