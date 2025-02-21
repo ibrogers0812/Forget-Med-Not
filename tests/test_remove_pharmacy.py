@@ -3,6 +3,7 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
+
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,6 +11,7 @@ def client():
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
+
 
 def test_remove_pharmacy(client, mocker):
     """
@@ -26,15 +28,15 @@ def test_remove_pharmacy(client, mocker):
 
     # Mock the file reading process
     mocker.patch(
-        "builtins.open", 
+        "builtins.open",
         mocker.mock_open(read_data=json.dumps(mock_pharmacy_data))
     )
 
     # Step 2: Send a request to delete "Test Pharmacy"
     delete_data = {"pharmacy_name": "Test Pharmacy"}
     response = client.post(
-        '/remove_pharmacy', 
-        data=delete_data, 
+        '/remove_pharmacy',
+        data=delete_data,
         follow_redirects=True
     )
 
@@ -46,7 +48,7 @@ def test_remove_pharmacy(client, mocker):
 
     pharmacy_list = json.loads(response.data)
     search_result = next(
-        (ph for ph in pharmacy_list if ph["name"] == "Test Pharmacy"), 
+        (ph for ph in pharmacy_list if ph["name"] == "Test Pharmacy"),
         None
     )
 
