@@ -15,7 +15,7 @@ def client():
 
 def test_remove_pharmacy(client, mocker):
     """
-    Test case to check if a user can successfully remove a 
+    Test case to check if a user can successfully remove a
     pharmacy's information.
     """
 
