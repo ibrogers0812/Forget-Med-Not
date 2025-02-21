@@ -2,7 +2,6 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
-
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -11,10 +10,10 @@ def client():
     app.config['TESTING'] = True
     return app.test_client()
 
-
 def test_remove_medication_reminder(client):
     """
-    Test case to check if a user can successfully remove a medication reminder.
+    Test case to check if a user can successfully remove a
+    medication reminder.
     """
 
     # Step 1: Add a test medication reminder
@@ -28,16 +27,23 @@ def test_remove_medication_reminder(client):
     }
 
     # Add the medication reminder
-    client.post('/add_reminder', data=reminder_data, follow_redirects=True)
+    client.post(
+        '/add_reminder', data=reminder_data, follow_redirects=True
+    )
 
     # Step 2: Remove the added reminder
     delete_data = {"time": test_time}
-    response = client.post('/delete_reminder', data=delete_data, follow_redirects=True)
+    response = client.post(
+        '/delete_reminder', data=delete_data, follow_redirects=True
+    )
 
     assert response.status_code == 200  # Ensure delete request was processed
 
     # Step 3: Retrieve reminders and confirm removal
     reminders_response = client.get('/list_reminders')
-    
+
     assert reminders_response.status_code == 200  # Ensure reminders list is accessible
-    assert test_medication not in reminders_response.get_data(as_text=True), "Test Failed: Medication reminder was not removed."
+
+    assert (
+        test_medication not in reminders_response.get_data(as_text=True)
+    ), "Test Failed: Medication reminder was not removed."
