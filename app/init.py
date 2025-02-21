@@ -2,10 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import Config
+from models import User  # Ensure 'User' is imported before use
 
 # Initialize extensions
 db = SQLAlchemy()
 login_manager = LoginManager()
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -23,6 +25,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main)
 
     # Additional setup, e.g., database migrations
+
 
     return app
 
