@@ -1,7 +1,6 @@
 import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
-from werkzeug.utils import quote  # Corrected import statement for Werkzeug
 
 @pytest.fixture
 def client():
@@ -10,7 +9,6 @@ def client():
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
-
 
 def test_add_event_to_calendar(client):
     """
