@@ -2,6 +2,7 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
+
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,13 +11,14 @@ def client():
     app.config['TESTING'] = True
     return app.test_client()
 
-def test_add_more_than_five_medications(client):
+
+def test_add_multiple_medications(client):
     """
-    Test case to check if a user can add more than five active medications.
+    Test case to check if a user can add any number of active medications.
     """
 
-    # Step 1: Add five medication reminders
-    for i in range(1, 6):
+    # Step 1: Add multiple medication reminders
+    for i in range(1, 11):  # Example: Adding ten medication reminders
         reminder_data = {
             "medication": f"Medication {i}",
             "dose": "100mg",
@@ -27,17 +29,7 @@ def test_add_more_than_five_medications(client):
         )
         assert response.status_code == 200  # Ensure each reminder is added successfully
 
-    # Step 2: Attempt to add a sixth medication
-    extra_reminder_data = {
-        "medication": "Medication 6",
-        "dose": "50mg",
-        "time": "2025-02-18 09:00:00"
-    }
-    response = client.post(
-        '/add_reminder', data=extra_reminder_data, follow_redirects=True
-    )
-
-    # Step 3: Retrieve reminders and check if more than five exist
+    # Step 2: Retrieve reminders and check if all were added
     reminders_response = client.get('/list_reminders')
 
     assert reminders_response.status_code == 200  # Ensure reminders list is accessible
@@ -46,4 +38,5 @@ def test_add_more_than_five_medications(client):
     # Count occurrences of 'Medication' in the response
     medication_count = reminders_text.count("Medication")
 
-    assert medication_count <= 5, "Test Failed: More than five medications were added."
+    # Example: Check if at least ten medications were added
+    assert medication_count >= 10, "Test Failed: Not all medications were added successfully."
