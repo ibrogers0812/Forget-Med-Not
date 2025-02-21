@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
-from werkzeug.utils import quote  # Corrected import statement for Werkzeug
+
 
 @pytest.fixture
 def client():
