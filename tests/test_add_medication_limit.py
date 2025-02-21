@@ -2,7 +2,6 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
-
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,7 +9,6 @@ def client():
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
-
 
 def test_add_more_than_five_medications(client):
     """
@@ -24,7 +22,9 @@ def test_add_more_than_five_medications(client):
             "dose": "100mg",
             "time": f"2025-02-18 08:0{i}:00"
         }
-        response = client.post('/add_reminder', data=reminder_data, follow_redirects=True)
+        response = client.post(
+            '/add_reminder', data=reminder_data, follow_redirects=True
+        )
         assert response.status_code == 200  # Ensure each reminder is added successfully
 
     # Step 2: Attempt to add a sixth medication
@@ -33,11 +33,13 @@ def test_add_more_than_five_medications(client):
         "dose": "50mg",
         "time": "2025-02-18 09:00:00"
     }
-    response = client.post('/add_reminder', data=extra_reminder_data, follow_redirects=True)
+    response = client.post(
+        '/add_reminder', data=extra_reminder_data, follow_redirects=True
+    )
 
     # Step 3: Retrieve reminders and check if more than five exist
     reminders_response = client.get('/list_reminders')
-    
+
     assert reminders_response.status_code == 200  # Ensure reminders list is accessible
     reminders_text = reminders_response.get_data(as_text=True)
 
