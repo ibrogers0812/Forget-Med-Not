@@ -37,7 +37,7 @@ def test_add_event_to_calendar(client):
     # Step 3: Retrieve events and check if the new event exists
     events_response = client.get('/list_events')
 
-    assert events_response.status_code == 200  # Ensure event list is accessible
+    assert events_response.status_code == 200  # Ensure events are accessible
     assert "Doctor Appointment" in events_response.get_data(
         as_text=True
     ), "Test Failed: Event was not added successfully."
