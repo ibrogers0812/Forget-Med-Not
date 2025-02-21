@@ -2,6 +2,7 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
+
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,9 +11,10 @@ def client():
     app.config['TESTING'] = True
     return app.test_client()
 
+
 def test_update_medication_reminder_time(client):
     """
-    Test case to check if a user can successfully update the time of an 
+    Test case to check if a user can successfully update the time of an
     existing medication reminder.
     """
 
@@ -28,8 +30,8 @@ def test_update_medication_reminder_time(client):
 
     # Add a reminder first
     client.post(
-        '/add_reminder', 
-        data=reminder_data, 
+        '/add_reminder',
+        data=reminder_data,
         follow_redirects=True
     )
 
@@ -40,8 +42,8 @@ def test_update_medication_reminder_time(client):
     }
 
     response = client.post(
-        '/update_reminder', 
-        data=update_data, 
+        '/update_reminder',
+        data=update_data,
         follow_redirects=True
     )
 
