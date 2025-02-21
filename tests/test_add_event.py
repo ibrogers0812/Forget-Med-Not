@@ -1,7 +1,7 @@
 import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
-
+from werkzeug.utils import quote  # Corrected import statement for Werkzeug
 
 @pytest.fixture
 def client():
@@ -14,7 +14,8 @@ def client():
 
 def test_add_event_to_calendar(client):
     """
-    Test case to check if a user can successfully add an event to the calendar.
+    Test case to check if a user can successfully add an event to the
+    calendar.
     """
 
     # Step 1: Define event details
@@ -38,6 +39,5 @@ def test_add_event_to_calendar(client):
     events_response = client.get('/list_events')
 
     assert events_response.status_code == 200  # Ensure events are accessible
-    assert "Doctor Appointment" in events_response.get_data(
-        as_text=True
-    ), "Test Failed: Event was not added successfully."
+    assert "Doctor Appointment" in events_response.get_data(as_text=True), \
+        "Test Failed: Event was not added successfully."
