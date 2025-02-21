@@ -25,7 +25,9 @@ def test_add_multiple_medications(client):
             "time": f"2025-02-18 08:0{i}:00"
         }
         response = client.post(
-            '/add_reminder', data=reminder_data, follow_redirects=True
+            '/add_reminder',
+            data=reminder_data,
+            follow_redirects=True
         )
         assert response.status_code == 200  # Ensure each reminder is added successfully
 
