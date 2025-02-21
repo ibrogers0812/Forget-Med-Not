@@ -34,7 +34,7 @@ def test_add_multiple_medications(client):
     # Step 2: Retrieve reminders and check if all were added
     reminders_response = client.get('/list_reminders')
 
-    assert reminders_response.status_code == 200  # Reminders list is accessible
+    assert reminders_response.status_code == 200  # List is accessible
     reminders_text = reminders_response.get_data(as_text=True)
 
     # Count occurrences of 'Medication' in the response
