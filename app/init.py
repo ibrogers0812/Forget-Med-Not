@@ -26,10 +26,9 @@ def create_app(config_class=Config):
 
     # Additional setup, e.g., database migrations
 
-
     return app
+
 
 @login_manager.user_loader
 def load_user(user_id):
-    # Replace with actual user loading logic
     return User.query.get(int(user_id))
