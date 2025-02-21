@@ -47,12 +47,12 @@ def test_update_medication_reminder_time(client):
         follow_redirects=True
     )
 
-    assert response.status_code == 200  # Ensure the update request was processed successfully
+    assert response.status_code == 200  # Ensure update was processed successfully
 
     # Step 3: Retrieve reminders and verify the update
     reminders_response = client.get('/list_reminders')
 
-    assert reminders_response.status_code == 200  # Ensure reminders list is accessible
+    assert reminders_response.status_code == 200  # Ensure reminders are accessible
     assert (
         new_time in reminders_response.get_data(as_text=True)
     ), "Test Failed: Reminder time was not updated"
