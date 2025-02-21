@@ -29,7 +29,7 @@ def test_add_multiple_medications(client):
             data=reminder_data,
             follow_redirects=True
         )
-        assert response.status_code == 200  # Ensure each reminder is added successfully
+        assert response.status_code == 200  # Ensure reminders are added successfully
 
     # Step 2: Retrieve reminders and check if all were added
     reminders_response = client.get('/list_reminders')
@@ -38,7 +38,11 @@ def test_add_multiple_medications(client):
     reminders_text = reminders_response.get_data(as_text=True)
 
     # Count occurrences of 'Medication' in the response
-    medication_count = reminders_text.count("Medication")
+    medication_count = reminders_text.count(
+        "Medication"
+    )
 
     # Example: Check if at least ten medications were added
-    assert medication_count >= 10, "Test Failed: Not all medications were added successfully."
+    assert medication_count >= 10, (
+        "Test Failed: Not all medications were added successfully."
+    )
