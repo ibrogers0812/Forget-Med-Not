@@ -27,15 +27,21 @@ def test_search_unknown_pharmacy(client, mocker):
     ]
 
     # Mock the file reading process to return predefined data
-    mocker.patch("builtins.open", mocker.mock_open(read_data=json.dumps(mock_pharmacy_data)))
+    mocker.patch(
+        "builtins.open", 
+        mocker.mock_open(read_data=json.dumps(mock_pharmacy_data))
+    )
 
     # Perform a search for a non-existent pharmacy
     response = client.get('/pharmacies')
-    
+
     assert response.status_code == 200  # Ensure the route is accessible
 
     # Check if the unknown pharmacy is NOT in the returned pharmacy list
     pharmacy_list = json.loads(response.data)
-    search_result = next((ph for ph in pharmacy_list if ph['name'] == "Unknown Pharmacy"), None)
+    search_result = next(
+        (ph for ph in pharmacy_list if ph['name'] == "Unknown Pharmacy"), 
+        None
+    )
 
     assert search_result is None, "Test Failed: Unexpected pharmacy found"
