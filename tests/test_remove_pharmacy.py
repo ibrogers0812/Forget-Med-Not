@@ -8,7 +8,7 @@ from route import main  # Import the Flask blueprint
 def client():
     """Set up a test client for the Flask application."""
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'your_secret_key_here'  # Set the secret key
+    app.config['SECRET_KEY'] = 'your_secret_key_here'  # Set secret key
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
@@ -33,15 +33,19 @@ def test_remove_pharmacy(client, mocker):
         mocker.mock_open(read_data=json.dumps(mock_pharmacy_data))
     )
 
+    # Mock the file writing process
+    mock_write = mocker.patch("builtins.open", mocker.mock_open())
+
     # Step 2: Send a request to delete "Test Pharmacy"
     delete_data = {"pharmacy_name": "Test Pharmacy"}
     response = client.post(
         '/remove_pharmacy',
-        data=delete_data,
+        data=json.dumps(delete_data),
+        content_type='application/json',
         follow_redirects=True
     )
 
-    assert response.status_code == 200  # Ensure delete request was processed
+    assert response.status_code == 200  # Ensure delete request processed
 
     # Step 3: Retrieve pharmacy list and confirm removal
     response = client.get('/pharmacies')
@@ -56,3 +60,6 @@ def test_remove_pharmacy(client, mocker):
     assert search_result is None, (
         "Test Failed: Pharmacy information was not removed."
     )
+
+    # Ensure that the write function was called to save the changes
+    mock_write.assert_called()
