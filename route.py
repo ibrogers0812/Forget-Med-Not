@@ -3,7 +3,7 @@ from flask import (
 )
 from datetime import datetime
 from med_reminders import (
-    add_reminder, delete_reminder, list_reminders  # Removed unused import `update_reminder`
+    add_reminder, delete_reminder  # Removed unused import `list_reminders`
 )
 
 main = Blueprint('main', __name__)
@@ -11,7 +11,7 @@ reminders = []  # Initialize the reminders list
 
 
 @main.route('/add_reminder', methods=['POST'])
-def add_reminder_view():  # Renamed to avoid conflict with the imported function
+def add_reminder_view():
     data = request.form
     medication = data.get('medication')
     dose = data.get('dose')
@@ -25,7 +25,7 @@ def add_reminder_view():  # Renamed to avoid conflict with the imported function
 
 
 @main.route('/delete_reminder', methods=['POST'])
-def delete_reminder_view():  # Renamed to avoid conflict with the imported function
+def delete_reminder_view():
     data = request.form
     time = data.get('time')
     time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
@@ -41,5 +41,5 @@ def delete_reminder_view():  # Renamed to avoid conflict with the imported funct
 
 
 @main.route('/list_reminders', methods=['GET'])
-def list_reminders_view():  # Renamed to avoid conflict with the imported function
+def list_reminders_view():
     return jsonify(reminders), 200
