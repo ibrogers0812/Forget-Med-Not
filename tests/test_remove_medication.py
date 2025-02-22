@@ -2,7 +2,6 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
-
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,7 +9,6 @@ def client():
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
-
 
 def test_remove_medication_reminder(client):
     """
