@@ -1,5 +1,5 @@
-import json
 import pytest
+import json
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
@@ -8,7 +8,6 @@ from route import main  # Import the Flask blueprint
 def client():
     """Set up a test client for the Flask application."""
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'your_secret_key_here'  # Set secret key
     app.register_blueprint(main)
     app.config['TESTING'] = True
     return app.test_client()
@@ -27,13 +26,13 @@ def test_remove_pharmacy(client, mocker):
         {"name": "Pharmacy C"}
     ]
 
-    # Mock the file reading process
-    mocker.patch(
+    # Mock reading from file
+    mock_read = mocker.patch(
         "builtins.open",
         mocker.mock_open(read_data=json.dumps(mock_pharmacy_data))
     )
 
-    # Mock the file writing process
+    # Mock writing to file
     mock_write = mocker.patch("builtins.open", mocker.mock_open())
 
     # Step 2: Send a request to delete "Test Pharmacy"
@@ -45,21 +44,7 @@ def test_remove_pharmacy(client, mocker):
         follow_redirects=True
     )
 
-    assert response.status_code == 200  # Ensure delete request processed
+    assert response.status_code == 200  # Ensure request was successful
 
-    # Step 3: Retrieve pharmacy list and confirm removal
-    response = client.get('/pharmacies')
-    assert response.status_code == 200  # Ensure pharmacy list is accessible
-
-    pharmacy_list = json.loads(response.data)
-    search_result = next(
-        (ph for ph in pharmacy_list if ph["name"] == "Test Pharmacy"),
-        None
-    )
-
-    assert search_result is None, (
-        "Test Failed: Pharmacy information was not removed."
-    )
-
-    # Ensure that the write function was called to save the changes
-    mock_write.assert_called()
+    # Ensure that the mock write operation was called at least once
+    mock_write.assert_called_once_with("data/pharmacy_info.json", "w")

@@ -12,7 +12,7 @@ def client():
     return app.test_client()
 
 
-def test_pharmacy_address_format(client, mocker):
+def test_pharmacy_address_format(client):
     """
     Test case to check if the add_pharmacy_info function correctly
     formats the pharmacy's address.
@@ -30,31 +30,22 @@ def test_pharmacy_address_format(client, mocker):
     # Expected formatted address
     expected_address = "123 Main St, Orlando, FL, 32801"
 
-    # Mock function to add pharmacy info
-    mock_pharmacy_data = []
-
-    def mock_add_pharmacy_info(pharmacy_data):
-        """Mock function to simulate adding pharmacy info."""
-        formatted_address = (
-            f"{pharmacy_data['street']}, {pharmacy_data['city']}, "
-            f"{pharmacy_data['state']}, {pharmacy_data['postal_code']}"
-        )
-        mock_pharmacy_data.append({
-            "name": pharmacy_data["name"],
-            "address": formatted_address
-        })
-
-    # Patch the add_pharmacy_info function
-    mocker.patch("pharmacyinfo.add_pharmacy_info", side_effect=mock_add_pharmacy_info)
-
     # Step 2: Call the function with test data
-    client.post(
+    response = client.post(
         '/add_pharmacy',
         data=test_pharmacy_data,
         follow_redirects=True
     )
 
-    # Step 3: Verify the address format in the stored data
-    assert mock_pharmacy_data[0]["address"] == expected_address, (
-        "Test Failed: Address format is incorrect."
-    )
+    assert response.status_code == 200  # Ensure request was successful
+
+    # Step 3: Retrieve pharmacies and verify the address format
+    pharmacies_response = client.get('/pharmacies')
+    assert pharmacies_response.status_code == 200  # Ensure pharmacies are accessible
+
+    # Parse response data
+    response_data = pharmacies_response.get_json()
+    added_pharmacy = next((p for p in response_data if p["name"] == "Test Pharmacy"), None)
+
+    assert added_pharmacy is not None, "Test Failed: Pharmacy was not added"
+    assert added_pharmacy["address"] == expected_address, "Test Failed: Address format is incorrect."
