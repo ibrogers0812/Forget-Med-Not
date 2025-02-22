@@ -100,3 +100,4 @@ def add_event():
 
 @main.route('/list_events', methods=['GET'])
 def list_events():
+    return jsonify(events), 200
