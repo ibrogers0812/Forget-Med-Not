@@ -17,7 +17,7 @@ def create_app():
     login_manager.init_app(app)
 
     # Import and register blueprints
-    from .route import main as main_blueprint  # Updated to match your import
+    from .route import main as main_blueprint  # Updated to match import
     app.register_blueprint(main_blueprint)
 
     return app
