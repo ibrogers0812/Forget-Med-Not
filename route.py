@@ -25,8 +25,8 @@ def add_reminder_view():
         time = request.form.get('time')
         time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
 
-        reminder = {"medication": medication, "dose": dose, "time": time}
-        add_reminder(reminders, medication, dose, time)  # Correctly pass the arguments
+        # Remove the unused `reminder` variable
+        add_reminder(reminders, medication, dose, time)  # Pass arguments correctly
 
         flash('Reminder added successfully!')
         return redirect(url_for('main.index'))
