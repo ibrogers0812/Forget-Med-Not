@@ -11,11 +11,9 @@ main = Blueprint('main', __name__)
 reminders = []  # Initialize the reminders list
 events = []  # Initialize the events list
 
-
 @main.route('/')
 def index():
     return render_template('index.html')
-
 
 @main.route('/add_reminder', methods=['GET', 'POST'])
 def add_reminder_view():
@@ -32,7 +30,6 @@ def add_reminder_view():
         return redirect(url_for('main.index'))
 
     return render_template('add_reminder.html')
-
 
 @main.route('/update_reminder', methods=['GET', 'POST'])
 def update_reminder_view():
@@ -55,7 +52,6 @@ def update_reminder_view():
 
     return render_template('update_reminder.html')
 
-
 @main.route('/delete_reminder', methods=['POST'])
 def delete_reminder_view():
     time = request.form.get('time')
@@ -71,12 +67,10 @@ def delete_reminder_view():
 
     return redirect(url_for('main.index'))
 
-
 @main.route('/list_reminders')
 def list_reminders_view():
     reminder_list = list_reminders(reminders)
     return render_template('list_reminders.html', reminders=reminder_list)
-
 
 @main.route('/pharmacies')
 def pharmacies_view():
@@ -84,10 +78,9 @@ def pharmacies_view():
         pharmacies = json.load(file)
     return render_template('pharmacies.html', pharmacies=pharmacies)
 
-
 @main.route('/add_event', methods=['POST'])
 def add_event():
-    data = request.form  # or request.json if you're sending JSON data
+    data = request.form  # request.json if you're sending JSON data
     event = {
         "title": data.get("title"),
         "date": data.get("date"),
@@ -95,8 +88,8 @@ def add_event():
         "description": data.get("description")
     }
     events.append(event)
+    print(events)  # Debug: Print events list to verify data is added
     return jsonify(event), 200
-
 
 @main.route('/list_events', methods=['GET'])
 def list_events():
