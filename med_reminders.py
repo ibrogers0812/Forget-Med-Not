@@ -15,7 +15,7 @@ def add_reminder(reminders, medication, dose, time):
         "dose": dose,
         "time": time
     }
-    reminders.append(reminder)
+    reminders.append({"medication": medication, "dose": dose, "time": time})
 
 
 def update_reminder(reminders, old_reminder, new_time):

@@ -8,6 +8,7 @@ from med_reminders import (
 
 main = Blueprint('main', __name__)
 reminders = []  # Initialize the reminders list
+pharmacies = []  # Define the pharmacies list
 
 
 @main.route('/add_reminder', methods=['POST'])
@@ -43,3 +44,15 @@ def delete_reminder_view():
 @main.route('/list_reminders', methods=['GET'])
 def list_reminders_view():
     return jsonify(reminders), 200
+
+
+@main.route('/remove_pharmacy', methods=['POST'])
+def remove_pharmacy():
+    name = request.json.get("pharmacy_name")
+    if not name:
+        return "Missing pharmacy name", 400
+
+    global pharmacies
+    pharmacies[:] = [p for p in pharmacies if p['name'].lower() != name.lower()]
+
+    return jsonify({"message": "Pharmacy removed successfully!"}), 200

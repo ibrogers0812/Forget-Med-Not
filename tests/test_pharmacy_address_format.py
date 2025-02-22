@@ -45,7 +45,7 @@ def test_pharmacy_address_format(client, mocker):
         })
 
     # Patch the add_pharmacy_info function
-    mocker.patch("route.add_pharmacy_info", side_effect=mock_add_pharmacy_info)
+    mocker.patch("pharmacyinfo.add_pharmacy_info", side_effect=mock_add_pharmacy_info)
 
     # Step 2: Call the function with test data
     client.post(

@@ -22,7 +22,7 @@ def test_add_multiple_medications(client):
         reminder_data = {
             "medication": f"Medication {i}",
             "dose": "100mg",
-            "time": f"2025-02-18 08:0{i}:00"
+            "time": f"2025-02-18 08:{i:02}:00"
         }
         response = client.post(
             '/add_reminder',
