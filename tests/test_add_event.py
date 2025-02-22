@@ -1,43 +1,102 @@
-import pytest
-from flask import Flask
-from route import main  # Import the Flask blueprint
+from flask import (
+    Blueprint, render_template, request, redirect, url_for, flash, jsonify
+)
+from datetime import datetime
+from med_reminders import (
+    add_reminder, update_reminder, delete_reminder, list_reminders
+)
+import json
+
+main = Blueprint('main', __name__)
+reminders = []  # Initialize the reminders list
+events = []  # Initialize the events list
 
 
-@pytest.fixture
-def client():
-    """Set up a test client for the Flask application."""
-    app = Flask(__name__)
-    app.register_blueprint(main)
-    app.config['TESTING'] = True
-    return app.test_client()
+@main.route('/')
+def index():
+    return render_template('index.html')
 
 
-def test_add_event_to_calendar(client):
-    """
-    Test case to check if a user can successfully add an event to the
-    calendar.
-    """
+@main.route('/add_reminder', methods=['GET', 'POST'])
+def add_reminder_view():
+    if request.method == 'POST':
+        medication = request.form.get('medication')
+        dose = request.form.get('dose')
+        time = request.form.get('time')
+        time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
 
-    # Step 1: Define event details
-    event_data = {
-        "title": "Doctor Appointment",
-        "date": "2025-02-20",
-        "time": "14:30:00",
-        "description": "Annual health check-up"
-    }
+        add_reminder(reminders, medication, dose, time)
 
-    # Step 2: Send a request to add the event
-    response = client.post(
-        '/add_event',
-        data=event_data,
-        follow_redirects=True
+        flash('Reminder added successfully!')
+        return redirect(url_for('main.index'))
+
+    return render_template('add_reminder.html')
+
+
+@main.route('/update_reminder', methods=['GET', 'POST'])
+def update_reminder_view():
+    if request.method == 'POST':
+        old_time = request.form.get('old_time')
+        new_time = request.form.get('new_time')
+
+        old_time = datetime.strptime(old_time, '%Y-%m-%d %H:%M:%S')
+        new_time = datetime.strptime(new_time, '%Y-%m-%d %H:%M:%S')
+
+        old_reminder = next(
+            (r for r in reminders if r['time'] == old_time), None
+        )
+
+        if old_reminder:
+            update_reminder(reminders, old_reminder, new_time)
+            flash('Reminder updated successfully!')
+
+        return redirect(url_for('main.index'))
+
+    return render_template('update_reminder.html')
+
+
+@main.route('/delete_reminder', methods=['POST'])
+def delete_reminder_view():
+    time = request.form.get('time')
+    time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+
+    reminder_to_delete = next(
+        (r for r in reminders if r['time'] == time), None
     )
 
-    assert response.status_code == 200  # Ensure the request was successful
+    if reminder_to_delete:
+        delete_reminder(reminders, reminder_to_delete)
+        flash('Reminder deleted successfully!')
 
-    # Step 3: Retrieve events and check if the new event exists
-    events_response = client.get('/list_events')
+    return redirect(url_for('main.index'))
 
-    assert events_response.status_code == 200  # Ensure events are accessible
-    assert "Doctor Appointment" in events_response.get_data(as_text=True), \
-        "Test Failed: Event was not added successfully."
+
+@main.route('/list_reminders')
+def list_reminders_view():
+    reminder_list = list_reminders(reminders)
+    return render_template('list_reminders.html', reminders=reminder_list)
+
+
+@main.route('/pharmacies')
+def pharmacies_view():
+    with open('data/pharmacy_info.json', 'r') as file:
+        pharmacies = json.load(file)
+    return render_template('pharmacies.html', pharmacies=pharmacies)
+
+
+@main.route('/add_event', methods=['POST'])
+def add_event():
+    data = request.form  # or request.json if you're sending JSON data
+    event = {
+        "title": data.get("title"),
+        "date": data.get("date"),
+        "time": data.get("time"),
+        "description": data.get("description")
+    }
+    events.append(event)
+    return jsonify(event), 200
+
+
+@main.route('/list_events', methods=['GET'])
+def list_events():
+    return jsonify(events), 200
