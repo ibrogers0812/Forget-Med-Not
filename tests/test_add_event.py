@@ -1,7 +1,6 @@
 import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
-from urllib.parse import quote as url_quote  # Use the standard library alternative
 
 
 @pytest.fixture
