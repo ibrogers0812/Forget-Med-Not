@@ -20,17 +20,13 @@ def test_remove_pharmacy(client, mocker):
     """
 
     # Step 1: Mock pharmacy data with an existing pharmacy
+    """
     mock_pharmacy_data = [
         {"name": "Test Pharmacy"},
         {"name": "Pharmacy B"},
         {"name": "Pharmacy C"}
     ]
-
-    # Mock reading from file
-    mock_read = mocker.patch(
-        "builtins.open",
-        mocker.mock_open(read_data=json.dumps(mock_pharmacy_data))
-    )
+    """
 
     # Mock writing to file
     mock_write = mocker.patch("builtins.open", mocker.mock_open())

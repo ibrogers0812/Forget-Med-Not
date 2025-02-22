@@ -28,7 +28,9 @@ def test_pharmacy_address_format(client):
     }
 
     # Expected formatted address
-    expected_address = "123 Main St, Orlando, FL, 32801"
+    expected_address = (
+        "123 Main St, Orlando, FL, 32801"
+    )
 
     # Step 2: Call the function with test data
     response = client.post(
@@ -41,11 +43,17 @@ def test_pharmacy_address_format(client):
 
     # Step 3: Retrieve pharmacies and verify the address format
     pharmacies_response = client.get('/pharmacies')
-    assert pharmacies_response.status_code == 200  # Ensure pharmacies are accessible
+    # Ensure pharmacies are accessible
+    assert pharmacies_response.status_code == 200
 
     # Parse response data
     response_data = pharmacies_response.get_json()
-    added_pharmacy = next((p for p in response_data if p["name"] == "Test Pharmacy"), None)
+    added_pharmacy = next(
+        (p for p in response_data if p["name"] == "Test Pharmacy"),
+        None
+    )
 
     assert added_pharmacy is not None, "Test Failed: Pharmacy was not added"
-    assert added_pharmacy["address"] == expected_address, "Test Failed: Address format is incorrect."
+    assert (
+        added_pharmacy["address"] == expected_address
+    ), "Test Failed: Address format is incorrect."

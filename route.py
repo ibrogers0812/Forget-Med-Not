@@ -2,10 +2,6 @@ import json
 from flask import (
     Blueprint, request, jsonify
 )
-from datetime import datetime
-from med_reminders import (
-    add_reminder, delete_reminder  # Removed unused import `list_reminders`
-)
 
 main = Blueprint('main', __name__)
 reminders = []  # Initialize the reminders list
@@ -17,11 +13,10 @@ def add_reminder_view():
     data = request.form
     medication = data.get('medication')
     dose = data.get('dose')
-    time = data.get('time')
-    time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
+    time = data.get('time')  # ✅ Keep time as a string
 
     reminder = {"medication": medication, "dose": dose, "time": time}
-    add_reminder(reminders, medication, dose, time)
+    reminders.append(reminder)  # ✅ Store time as a string
 
     return jsonify(reminder), 200
 
@@ -30,14 +25,9 @@ def add_reminder_view():
 def delete_reminder_view():
     data = request.form
     time = data.get('time')
-    time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
 
-    reminder_to_delete = next(
-        (r for r in reminders if r['time'] == time), None
-    )
-
-    if reminder_to_delete:
-        delete_reminder(reminders, reminder_to_delete)
+    global reminders
+    reminders = [r for r in reminders if r["time"] != time]
 
     return jsonify({"message": "Reminder deleted successfully!"}), 200
 
@@ -104,12 +94,11 @@ def update_reminder_view():
     if not old_time or not new_time:
         return jsonify({"error": "Missing required fields"}), 400
 
-    old_time = datetime.strptime(old_time, '%Y-%m-%d %H:%M:%S')
-    new_time = datetime.strptime(new_time, '%Y-%m-%d %H:%M:%S')
+    # Ensure stored reminders have time as a string for consistency
+    old_reminder = next((r for r in reminders if r["time"] == old_time), None)
 
-    old_reminder = next((r for r in reminders if r['time'] == old_time), None)
     if old_reminder:
-        old_reminder["time"] = new_time
+        old_reminder["time"] = new_time  # Keep it as a string
         return jsonify({"message": "Reminder updated successfully!"}), 200
 
     return jsonify({"error": "Reminder not found"}), 404

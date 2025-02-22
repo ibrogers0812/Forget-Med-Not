@@ -31,6 +31,28 @@ def test_update_medication_reminder_time(client):
     client.post('/add_reminder', data=reminder_data, follow_redirects=True)
 
     update_data = {"old_time": old_time, "new_time": new_time}
-    response = client.post('/update_reminder', data=update_data, follow_redirects=True)
+    response = client.post('/update_reminder',
+                           data=update_data, follow_redirects=True)
 
-    assert response.status_code == 200
+    assert response.status_code == 200, (
+        "Test Failed: Update request did not return a successful response"
+    )
+
+    # Step 3: Retrieve reminders and verify the update
+    reminders_response = client.get(
+        '/list_reminders')
+    # Reminders should be accessible
+    assert reminders_response.status_code == 200
+
+    reminders_json = reminders_response.get_json()
+    updated_reminder = next(
+        (r for r in reminders_json if r["medication"] == "Aspirin"),
+        None
+    )
+
+    assert updated_reminder is not None, "Test Failed: Reminder was not found"
+    assert (
+        updated_reminder["time"] ==
+        new_time
+    ), (f"Test Failed: Reminder time was not updated, found "
+        f"{updated_reminder['time']}")
