@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import (
+    Blueprint, render_template, request, redirect, url_for, flash, jsonify
+)
 from datetime import datetime
 from med_reminders import (
     add_reminder, update_reminder, delete_reminder, list_reminders
@@ -9,9 +11,11 @@ main = Blueprint('main', __name__)
 reminders = []  # Initialize the reminders list
 events = []  # Initialize the events list
 
+
 @main.route('/')
 def index():
     return render_template('index.html')
+
 
 @main.route('/add_reminder', methods=['GET', 'POST'])
 def add_reminder_view():
@@ -28,6 +32,7 @@ def add_reminder_view():
         return redirect(url_for('main.index'))
 
     return render_template('add_reminder.html')
+
 
 @main.route('/update_reminder', methods=['GET', 'POST'])
 def update_reminder_view():
@@ -50,6 +55,7 @@ def update_reminder_view():
 
     return render_template('update_reminder.html')
 
+
 @main.route('/delete_reminder', methods=['POST'])
 def delete_reminder_view():
     time = request.form.get('time')
@@ -65,16 +71,19 @@ def delete_reminder_view():
 
     return redirect(url_for('main.index'))
 
+
 @main.route('/list_reminders')
 def list_reminders_view():
     reminder_list = list_reminders(reminders)
     return render_template('list_reminders.html', reminders=reminder_list)
+
 
 @main.route('/pharmacies')
 def pharmacies_view():
     with open('data/pharmacy_info.json', 'r') as file:
         pharmacies = json.load(file)
     return render_template('pharmacies.html', pharmacies=pharmacies)
+
 
 @main.route('/add_event', methods=['POST'])
 def add_event():
@@ -87,6 +96,7 @@ def add_event():
     }
     events.append(event)
     return jsonify(event), 200
+
 
 @main.route('/list_events', methods=['GET'])
 def list_events():
