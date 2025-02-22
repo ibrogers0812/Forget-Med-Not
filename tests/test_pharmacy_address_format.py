@@ -1,7 +1,6 @@
 import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
-from pytest_mock import mocker  # Ensure pytest-mock is imported
 
 
 @pytest.fixture
