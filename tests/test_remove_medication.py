@@ -34,7 +34,9 @@ def test_remove_medication_reminder(client):
 
     # Step 2: Remove the added reminder
     delete_data = {"time": test_time}
-    response = client.post('/delete_reminder', data=delete_data, follow_redirects=True)
+    response = client.post('/delete_reminder',
+                           data=delete_data, 
+                           follow_redirects=True)
 
     assert response.status_code == 200  # Ensure delete request was processed
 
