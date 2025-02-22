@@ -3,15 +3,15 @@ from flask import (
 )
 from datetime import datetime
 from med_reminders import (
-    add_reminder, update_reminder, delete_reminder, list_reminders
+    add_reminder, delete_reminder, list_reminders  # Removed unused import `update_reminder`
 )
-import json
 
 main = Blueprint('main', __name__)
 reminders = []  # Initialize the reminders list
 
+
 @main.route('/add_reminder', methods=['POST'])
-def add_reminder():
+def add_reminder_view():  # Renamed to avoid conflict with the imported function
     data = request.form
     medication = data.get('medication')
     dose = data.get('dose')
@@ -19,12 +19,13 @@ def add_reminder():
     time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
 
     reminder = {"medication": medication, "dose": dose, "time": time}
-    add_reminder(reminders, reminder)
+    add_reminder(reminders, medication, dose, time)
 
     return jsonify(reminder), 200
 
+
 @main.route('/delete_reminder', methods=['POST'])
-def delete_reminder():
+def delete_reminder_view():  # Renamed to avoid conflict with the imported function
     data = request.form
     time = data.get('time')
     time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
@@ -36,8 +37,9 @@ def delete_reminder():
     if reminder_to_delete:
         delete_reminder(reminders, reminder_to_delete)
 
-    return jsonify({"message": "Reminder deleted successfully"}), 200
+    return jsonify({"message": "Reminder deleted successfully!"}), 200
+
 
 @main.route('/list_reminders', methods=['GET'])
-def list_reminders():
+def list_reminders_view():  # Renamed to avoid conflict with the imported function
     return jsonify(reminders), 200
