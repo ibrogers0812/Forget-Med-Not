@@ -4,6 +4,7 @@ from create_app import create_app
 
 main = Blueprint('main', __name__)
 
+
 @main.route('/')
 def index():
     return render_template('index.html')
@@ -13,6 +14,7 @@ def index():
 @login_required
 def dashboard():
     return render_template('dashboard.html', user=current_user)
+
 
 # Initialize the app using the create_app function
 app = create_app()
