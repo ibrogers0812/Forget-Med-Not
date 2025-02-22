@@ -6,7 +6,6 @@ from flask_login import LoginManager
 db = SQLAlchemy()
 login_manager = LoginManager()
 
-
 def create_app():
     app = Flask(__name__)
 
@@ -18,7 +17,7 @@ def create_app():
     login_manager.init_app(app)
 
     # Import and register blueprints
-    from .routes import main as main_blueprint
+    from .route import main as main_blueprint  # Updated to match your import
     app.register_blueprint(main_blueprint)
 
     return app
