@@ -26,7 +26,7 @@ def add_reminder_view():
         time = datetime.strptime(time, '%Y-%m-%d %H:%M:%S')
 
         reminder = {"medication": medication, "dose": dose, "time": time}
-        add_reminder(reminders, reminder)
+        add_reminder(reminders, medication, dose, time)  # Correctly pass the arguments
 
         flash('Reminder added successfully!')
         return redirect(url_for('main.index'))
