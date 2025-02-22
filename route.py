@@ -87,4 +87,16 @@ def pharmacies_view():
 
 @main.route('/add_event', methods=['POST'])
 def add_event():
-    data = request.form  #
+    data = request.form  # or request.json if you're sending JSON data
+    event = {
+        "title": data.get("title"),
+        "date": data.get("date"),
+        "time": data.get("time"),
+        "description": data.get("description")
+    }
+    events.append(event)
+    return jsonify(event), 200
+
+
+@main.route('/list_events', methods=['GET'])
+def list_events():
