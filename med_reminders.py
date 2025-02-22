@@ -1,5 +1,3 @@
-# Removed unused import
-
 def add_reminder(reminders, medication, dose, time):
     """
     Adds a reminder to the list.
@@ -15,7 +13,7 @@ def add_reminder(reminders, medication, dose, time):
         "dose": dose,
         "time": time
     }
-    reminders.append({"medication": medication, "dose": dose, "time": time})
+    reminders.append(reminder)  # Use the `reminder` variable
 
 
 def update_reminder(reminders, old_reminder, new_time):
