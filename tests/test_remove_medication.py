@@ -2,6 +2,7 @@ import pytest
 from flask import Flask
 from route import main  # Import the Flask blueprint
 
+
 @pytest.fixture
 def client():
     """Set up a test client for the Flask application."""
@@ -10,6 +11,7 @@ def client():
     app.config['TESTING'] = True
     app.config['SECRET_KEY'] = 'your_secret_key_here'  # Set the secret key
     return app.test_client()
+
 
 def test_remove_medication_reminder(client):
     """
