@@ -2,6 +2,7 @@
 
 import datetime
 
+
 def format_date(date_str):
     """
     Convert a date string in 'YYYY-MM-DD' format to a datetime object.
@@ -47,14 +48,15 @@ def validate_event_data(event_data):
 def format_event_for_display(event_data):
     """
     Format event data for display.
-    
+
     Args:
         event_data (dict): Dictionary containing event details.
 
     Returns:
         str: Formatted string for event display.
     """
-    return f"Event: {event_data['title']} on {event_data['date']} at {event_data['time']} - {event_data['description']}"
+    return (f"Event: {event_data['title']} on {event_data['date']} at "
+            f"{event_data['time']} - {event_data['description']}")
 
 
 def send_notification(message):
